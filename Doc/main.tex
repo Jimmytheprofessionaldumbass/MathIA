@@ -1,0 +1,31 @@
+% !TeX root = main.tex
+\documentclass[12pt]{article}
+\title{Investigating positional accuracy by double integrating accelerometer data}
+\author{Jimmy Zeng}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+    \section{Introduction}
+        Inertial Odometry has been studied with a variety of applications, whenever you need to know the precise location of something instantly, chances are that double integrating accelerometer data outpaces GPS solutions. From robotics to step trackers, they all rely on the property that the area under a accelerometer graph can provide enough data used to compute the displacement of the object. In this investigation we will explore the accuracy of double integrating accelerometer data recorded on a phone during travel to find path traveled to get to school and create a visual representation of the position with respect to time and comparing with GPS data.
+
+    \section{Background}
+        Recall that in kinematics integrating acceleration gives velocity, and integrating once again gives displacement. For discrete-time data, this cannot be solve analytically. Instead we refer to the trapezoidal method, illustrated below:
+\begin{figure}[htbp]
+    \center
+    
+    \caption{Captions will show up}
+    \label{fig:Label Name}
+\end{figure}
+\begin{tikzpicture}
+    \draw [black] (0,3) -- (2, 3);
+    \draw [black] (2,3) -- (5,5);
+\end{tikzpicture}
+
+
+\end{document}
