@@ -6,6 +6,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{tikz}
+\usetikzlibrary{patterns}
 
 
 \begin{document}
@@ -16,16 +17,19 @@
 
     \section{Background}
         Recall that in kinematics integrating acceleration gives velocity, and integrating once again gives displacement. For discrete-time data, this cannot be solve analytically. Instead we refer to the trapezoidal method, illustrated below:
-\begin{figure}[htbp]
+\begin{figure}[tbp]
     \center
     
+\begin{tikzpicture}
+    \draw[step=1cm] (0,0) grid (4,4);
+    \draw [black, very thick] (0,2) -- (2, 2);
+    \draw [black, very thick] (2,2) -- (4,4);
+    \fill[pattern=north east lines, pattern color=cyan] (0,0) rectangle (2,2);
+    \fill[pattern=north east lines, pattern color=blue] (2,0) rectangle (4,2);
+\end{tikzpicture}
     \caption{Captions will show up}
     \label{fig:Label Name}
 \end{figure}
-\begin{tikzpicture}
-    \draw [black] (0,3) -- (2, 3);
-    \draw [black] (2,3) -- (5,5);
-\end{tikzpicture}
 
 
 \end{document}
