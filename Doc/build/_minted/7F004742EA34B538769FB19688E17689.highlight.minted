@@ -1,0 +1,6 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{dt} \PYG{o}{=} \PYG{n}{final\PYGZus{}time} \PYG{o}{\PYGZhy{}} \PYG{n}{initial\PYGZus{}time}
+\PYG{n}{dx\PYGZus{}accel} \PYG{o}{=} \PYG{n}{final\PYGZus{}accel} \PYG{o}{\PYGZhy{}} \PYG{n}{initial\PYGZus{}accel}
+\PYG{n}{dx\PYGZus{}vel} \PYG{o}{=} \PYG{p}{(}\PYG{n}{dt} \PYG{o}{*} \PYG{n}{initial\PYGZus{}accel}\PYG{p}{)} \PYG{o}{+} \PYG{p}{((}\PYG{l+m+mi}{1}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{*} \PYG{n}{dt} \PYG{o}{*} \PYG{n}{dx\PYGZus{}accel}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} triangle area + square area = area under accel graph = change in velocity}
+\end{MintedVerbatim}

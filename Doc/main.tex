@@ -5,8 +5,19 @@
 
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{minted}
+\usepackage{amsmath}
 \usepackage{tikz}
 \usetikzlibrary{patterns}
+
+\newcommand{\diff}{\ensuremath{\operatorname{d}\!}}
+
+\definecolor{icegreen}{HTML}{20D68A}
+\definecolor{iceteal}{HTML}{16C7B7}
+\definecolor{icecyan}{HTML}{18C9E8}
+\definecolor{iceblue}{HTML}{239FE8}
+\definecolor{icedark}{HTML}{202B32}
+\definecolor{icegray}{HTML}{C9D0D3}
 
 
 \begin{document}
@@ -15,21 +26,62 @@
     \section{Introduction}
         Inertial Odometry has been studied with a variety of applications, whenever you need to know the precise location of something instantly, chances are that double integrating accelerometer data outpaces GPS solutions. From robotics to step trackers, they all rely on the property that the area under a accelerometer graph can provide enough data used to compute the displacement of the object. In this investigation we will explore the accuracy of double integrating accelerometer data recorded on a phone during travel to find path traveled to get to school and create a visual representation of the position with respect to time and comparing with GPS data.
 
-    \section{Background}
+        \pagebreak
+    \section{Numerical Integration and code application}
         Recall that in kinematics integrating acceleration gives velocity, and integrating once again gives displacement. For discrete-time data, this cannot be solve analytically. Instead we refer to the trapezoidal method, illustrated below:
-\begin{figure}[tbp]
+\begin{figure}[h]
     \center
     
 \begin{tikzpicture}
     \draw[step=1cm] (0,0) grid (4,4);
     \draw [black, very thick] (0,2) -- (2, 2);
     \draw [black, very thick] (2,2) -- (4,4);
-    \fill[pattern=north east lines, pattern color=cyan] (0,0) rectangle (2,2);
-    \fill[pattern=north east lines, pattern color=blue] (2,0) rectangle (4,2);
+    % \fill[pattern=north east lines, pattern color=green] (0,0) rectangle (2,2);
+    \fill[pattern=north west lines, pattern color=icegreen] (2,0) rectangle (4,2);
+    \fill[pattern=north west lines, pattern color=iceblue] (2,2) -- (4,2) -- (4,4) -- cycle;
+    \fill (0,2) circle (3pt);
+    \fill (2,2) circle (3pt);
+    \fill (4,4) circle (3pt);
+    \draw [black] (0, -0.1) -- (0, -0.3);
+    \draw [black] (0, -0.2) -- (2, -0.2);
+    \draw [black] (2, -0.1) -- (2, -0.3);
+    \draw [black] (2, -0.2) -- (4, -0.2);
+    \draw [black] (4, -0.1) -- (4, -0.3);
+    \node at (1, -0.5) {$\Delta t$};
+    \node at (3, -0.5) {$\Delta t$};
+    \draw [black] (4.1, 0) -- (4.3, 0);
+    \draw [black] (4.2, 0) -- (4.2, 2);
+    \draw [black] (4.1, 2) -- (4.3, 2);
+    \draw [black] (4.2, 2) -- (4.2, 4);
+    \draw [black] (4.1, 4) -- (4.3, 4);
+    \node [icegreen] at (4.7, 2) {$a_{0}$};
+    \node [iceblue] at (4.7, 4) {$a_{f}$};
+    \draw [icegreen, dashed, very thick] (2, 2) -- (4.5, 2);
+    \draw [iceblue, dashed, very thick] (4, 4) -- (4.5, 4);
+    \node [red]at (2, -0.7) {a};
+    \node [orange]at (4, -0.7) {b};
 \end{tikzpicture}
-    \caption{Captions will show up}
-    \label{fig:Label Name}
+    \caption{Integrating two data points}
+    \label{fig:trapezoidal integration}
 \end{figure}
+
+To calculate the area bounded by the x axis and the line created from two datapoints, we use basic geometry equations
+
+\begin{equation}
+    \Delta v = \int_{a}^{b} a(t)\diff t = \Delta t \cdot a_{0} + \frac{1}{2} \Delta t \cdot a_{f}
+\end{equation}
+
+which is thus computed in python code
+
+\begin{minted}{python}
+dt = final_time - initial_time
+dx_accel = final_accel - initial_accel
+dx_vel = (dt * initial_accel) + ((1/2) * dt * dx_accel)
+# triangle area + square area = area under accel graph = change in velocity
+\end{minted}
+
+the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. We get the following graph:
+
 
 
 \end{document}
