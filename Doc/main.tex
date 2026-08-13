@@ -1,12 +1,13 @@
 % !TeX root = main.tex
 \documentclass[12pt]{article}
 \title{Investigating positional accuracy by double integrating accelerometer data}
-\author{Jimmy Zeng}
+% \author{Jimmy Zeng}
 
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{minted}
 \usepackage{amsmath}
+\usepackage{pgfplots}
 \usepackage{tikz}
 \usetikzlibrary{patterns}
 
@@ -22,6 +23,7 @@
 
 \begin{document}
 \maketitle
+\pagebreak
 \tableofcontents
     \section{Introduction}
         Inertial Odometry has been studied with a variety of applications, whenever you need to know the precise location of something instantly, chances are that double integrating accelerometer data outpaces GPS solutions. From robotics to step trackers, they all rely on the property that the area under a accelerometer graph can provide enough data used to compute the displacement of the object. In this investigation we will explore the accuracy of double integrating accelerometer data recorded on a phone during travel to find path traveled to get to school and create a visual representation of the position with respect to time and comparing with GPS data.
@@ -80,7 +82,8 @@ dx_vel = (dt * initial_accel) + ((1/2) * dt * dx_accel)
 # triangle area + square area = area under accel graph = change in velocity
 \end{minted}
 
-the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. We get the following graph:
+the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. This is the integration of accelerometer data to displacement when the phone is swung left and right 5 times. We get the following graph:
+
 
 
 
