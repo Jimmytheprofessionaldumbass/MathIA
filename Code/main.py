@@ -116,6 +116,24 @@ with open("Test/Gravity.csv") as dataobject:#, open("Test/Orientation.csv") as o
 
 
 
+with open('accel.csv', 'w') as outaccel:
+
+    file = csv.writer(outaccel)
+    file.writerow(['Time', 'x', 'y', 'z'])
+    file.writerows(accel)
+
+with open('vel.csv', 'w') as outvel:
+
+    file = csv.writer(outvel)
+    file.writerow(['Time', 'x', 'y', 'z'])
+    file.writerows(vel)
+    
+with open('displ.csv', 'w') as outdispl:
+
+    file = csv.writer(outdispl)
+    file.writerow(['Time', 'x', 'y', 'z'])
+    file.writerows(displ)
+
 
 # AI generated plotting stuff ----------------------------------------------------------------
 

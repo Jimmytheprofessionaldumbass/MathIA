@@ -84,6 +84,20 @@ dx_vel = (dt * initial_accel) + ((1/2) * dt * dx_accel)
 
 the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. This is the integration of accelerometer data to displacement when the phone is swung left and right 5 times. We get the following graph:
 
+\begin{tikzpicture}
+    \begin{axis} [
+        xlabel={Time (s)},
+        ylabel={Displacement}
+    ]
+        \addplot table[
+                x=Time,
+                y=x,
+                col sep=comma
+                ] {../Code/Data/displ.csv};
+        
+    \end{axis}
+\end{tikzpicture}
+
 
 
 
