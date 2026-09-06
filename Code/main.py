@@ -2,20 +2,21 @@ import csv
 import matplotlib.pyplot as plt
 import math
 
-with open("Test/Gravity.csv") as dataobject:#, open("Test/Orientation.csv") as orientationobject:
+with open("Test/accelerometer.csv") as dataobject:#, open("Test/Orientation.csv") as orientationobject:
     #Preprocessing
     data = tuple(tuple(float(item) for item in row) for row in list(csv.reader(dataobject))[1:]) # Because Accelerometer actually records before orientation sensor does
     # Time, seconds_elapsed,z,y,x
     # orientation = tuple(tuple(float(item) for item in row) for row in list(csv.reader(orientationobject))[1:])
 
     # Centering averages
-    # avg_x_displ = sum(datum[1] for datum in data)/len(data)
-    # avg_y_displ = sum(datum[2] for datum in data)/len(data)
-    # avg_z_displ = sum(datum[3] for datum in data)/len(data)
-    # processed = []
-    # for row in data:
-    #     processed.append((row[0], row[1] - avg_x_displ, row[2] - avg_y_displ, row[3] - avg_z_displ))
-    # data = tuple(processed)
+    avg_x_displ = sum(datum[3] for datum in data)/len(data)
+    avg_y_displ = sum(datum[2] for datum in data)/len(data)
+    avg_z_displ = sum(datum[1] for datum in data)/len(data)
+    processed = []
+    for row in data:
+        processed.append((row[0], row[3] - avg_x_displ, row[2] - avg_y_displ, row[1] - avg_z_displ))
+    data = tuple(processed)
+        # Time, x, y, z
 
     # oriented_accel = [] # ( acceleration_towards_north, acceleration_towards_east )
 
@@ -40,9 +41,9 @@ with open("Test/Gravity.csv") as dataobject:#, open("Test/Orientation.csv") as o
     index = 0
     for row in data: # Integrating to Velocity ----------------------------------------------------------------------------------------
         try:
-            dt = data[index+1][1] - row[1] # final time - initial time = change in time
+            dt = data[index+1][0] - row[0] # final time - initial time = change in time
 
-            dx_accel = data[index+1][4] - row[4] # final x_accel - initial x_accel = the change in acceleration of x
+            dx_accel = data[index+1][1] - row[1] # final x_accel - initial x_accel = the change in acceleration of x
             dx_vel = (dt * row[4]) + ((1/2) * dt * dx_accel) # triangle area + square area = area under accel graph = change in velocity
             x_vel_net += dx_vel
 
@@ -55,11 +56,13 @@ with open("Test/Gravity.csv") as dataobject:#, open("Test/Orientation.csv") as o
             z_vel_net += dz_vel
 
             # print(row)
-            vel.append((row[0], x_vel_net, y_vel_net, z_vel_net))
+            vel.append((row[1], x_vel_net, y_vel_net, z_vel_net))
+            # Time, x, y, z
 
             index += 1
         except IndexError:
             break
+        # print(row)
 
 
 
@@ -90,8 +93,10 @@ with open("Test/Gravity.csv") as dataobject:#, open("Test/Orientation.csv") as o
             z_displ_net += dz_displ
 
             displ.append((row[0], x_displ_net, y_displ_net, z_displ_net))
+            # time, x, y, z
 
             index += 1
+
         except IndexError:
             break
 
@@ -120,26 +125,40 @@ with open('accel.csv', 'w') as outaccel:
 
     file = csv.writer(outaccel)
     file.writerow(['Time', 'x', 'y', 'z'])
-    file.writerows(accel)
+    file.writerows(
+    [
+        format(row[0], 'f'),  # Time
+        format(row[1], 'f'),  # x
+        format(row[2], 'f'),  # y
+        format(row[3], 'f')   # z
+    ]
+    for row in data
+    )
 
 with open('vel.csv', 'w') as outvel:
 
     file = csv.writer(outvel)
     file.writerow(['Time', 'x', 'y', 'z'])
-    file.writerows(vel)
+    file.writerows(
+        [format(value, 'f') for value in row]
+        for row in vel
+    )
     
 with open('displ.csv', 'w') as outdispl:
 
     file = csv.writer(outdispl)
     file.writerow(['Time', 'x', 'y', 'z'])
-    file.writerows(displ)
+    file.writerows(
+        [format(value, 'f') for value in row]
+        for row in displ
+    )
 
 
 # AI generated plotting stuff ----------------------------------------------------------------
 
 # 1. Extract the columns directly by choosing the correct index
-times_accel = [float(row[1]) for row in data[1:]]
-x_accels    = [float(row[4]) for row in data[1:]]
+times_accel = [float(row[0]) for row in data[1:]]
+x_accels    = [float(row[1]) for row in data[1:]]
 
 times_vel   = [row[0] for row in vel]
 x_vels      = [row[1] for row in vel]

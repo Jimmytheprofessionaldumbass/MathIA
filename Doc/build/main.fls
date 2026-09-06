@@ -1,4 +1,4 @@
-PWD /home/jimmy/Dev/MathIA/Doc
+PWD /Users/deep/MathIA/Doc
 INPUT /usr/local/texlive/2026/texmf.cnf
 INPUT /usr/local/texlive/2026/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt
@@ -263,6 +263,10 @@ INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 OUTPUT build/main.pdf
 INPUT /usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
@@ -271,7 +275,6 @@ INPUT build/main.toc
 INPUT build/main.toc
 INPUT build/main.toc
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-OUTPUT build/main.toc
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
@@ -283,6 +286,7 @@ INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+OUTPUT build/main.toc
 OUTPUT build/_FAD58DE7366495DB4650CFEFAC2FCD61.data.minted
 INPUT build/_FAD58DE7366495DB4650CFEFAC2FCD61.config.minted
 INPUT build/_FAD58DE7366495DB4650CFEFAC2FCD61.config.minted
@@ -297,6 +301,16 @@ INPUT ./build/_minted/7F004742EA34B538769FB19688E17689.highlight.minted
 INPUT build/_minted/7F004742EA34B538769FB19688E17689.highlight.minted
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmitt10.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT data/test1/accel.csv
+INPUT data/test1/accel.csv
+INPUT data/test1/accel.csv
+INPUT data/test1/accel.csv
+INPUT data/test1/vel.csv
+INPUT data/test1/displ.csv
+INPUT ./build/_minted/D41C7FF57C9ED64F609D57AB432E58E4.highlight.minted
+INPUT ./build/_minted/D41C7FF57C9ED64F609D57AB432E58E4.highlight.minted
+INPUT build/_minted/D41C7FF57C9ED64F609D57AB432E58E4.highlight.minted
 INPUT build/main.aux
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb

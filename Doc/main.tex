@@ -10,6 +10,7 @@
 \usepackage{pgfplots}
 \usepackage{tikz}
 \usetikzlibrary{patterns}
+\pgfplotsset{compat=1.18, width=10cm}
 
 \newcommand{\diff}{\ensuremath{\operatorname{d}\!}}
 
@@ -82,23 +83,271 @@ dx_vel = (dt * initial_accel) + ((1/2) * dt * dx_accel)
 # triangle area + square area = area under accel graph = change in velocity
 \end{minted}
 
-the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. This is the integration of accelerometer data to displacement when the phone is swung left and right 5 times. We get the following graph:
 
-\begin{tikzpicture}
-    \begin{axis} [
-        xlabel={Time (s)},
-        ylabel={Displacement}
-    ]
-        \addplot table[
+\subsection{Testing the waters}
+    
+
+the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. As a basic test of the practicality I moved my phone left and right 5 times on my table starting and ending at 0 velocity. Below we get the following graph of raw data of x y and z acceleration with respect to time:
+
+\begin{figure}[htbp]
+    \center
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Raw Accelerometer-Time Graph ("X" Direction)}
+        ]
+
+            \addplot[color=icegreen,very thick]
+            table[
                 x=Time,
                 y=x,
                 col sep=comma
-                ] {../Code/Data/displ.csv};
+            ]{data/test1/accel.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
         
-    \end{axis}
-\end{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Raw Accelerometer-Time Graph ("Y" Direction)}
+        ]
 
+            \addplot[color=icecyan,very thick]
+            table[
+                x=Time,
+                y=y,
+                col sep=comma
+            ]{data/test1/accel.csv};
+        \end{axis}
+    \end{tikzpicture}
 
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Raw Accelerometer-Time Graph ("Z" Direction)}
+        ]
 
+            \addplot[color=iceblue,very thick]
+            table[
+                x=Time,
+                y=z,
+                col sep=comma
+            ]{data/test1/accel.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Raw Accelerometer Data On X, Y and Z axis Respectively}
+    \label{fig:Label Name}
+\end{figure}    
+
+\subsection{Axis definitions for phone directions}
+It appears that the X axis best represents left-right movement, after further experimentation, the axis of the phone is established as illustrated:
+
+\begin{figure}[htbp]
+    \center
+        \begin{tikzpicture} [scale=0.5]
+            \draw [very thick, rounded corners=6] (0,0) rectangle (5, 10);
+            % \draw [thick, color=iceblue] (0,.5) -- (5,.5);
+            \filldraw [color=black] (2.5, 9.5) circle (0.1);
+            \filldraw [color=black!50] (2.5, 9.5) circle (0.05);
+            \draw [very thick] (5.1, 5) -- (5.1, 6);
+            \draw [very thick] (5.1, 4) -- (5.1, 4.5);
+            \draw [very thick] (-0.1, 4.75) -- (-0.1, 5.5);
+            \draw [very thick] (-0.1, 5.75) -- (-0.1, 6.5);
+
+            \draw [<-, very thick] (-3.5, 5) -- (-0.3, 5);
+            \node[above=5pt] at (-4, 5) {Negative X axis};
+
+            \draw [->, very thick] (5.3, 5) -- (8.5, 5);
+            \node[above=5pt] at (9, 5) {Positive X axis};
+
+            \draw [->, very thick] (2.5, 10.3) -- (2.5, 12);
+            \node[right=15pt] at (2.5, 11) {Positive Y axis};
+
+            \draw [->, very thick] (2.5, -0.3) -- (2.5, -2);
+            \node[right=15pt] at (2.5, -1) {Negative Y axis};
+
+            % \draw [<-, very thick] (-0.5, 8) -- (2.5, 5);
+            % \node[above=5pt,right=15pt] at (1, 7.5) {Positive Z axis};
+            %
+            % \draw [->, very thick] (2.5, 5) -- (5.5, 2);
+            % \node[below=5pt,left=15pt] at (4, 3.5) {Negative Z axis};
+        \end{tikzpicture}
+    \caption{Diagram of respective axis to the phone}
+    \label{fig:axis}
+\end{figure}
+
+And integrating the x-axis with the aforementioned algorithm we get this series of integrations
+
+\begin{figure}[htbp]
+    \center
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Raw Accelerometer-Time Graph ("X" Direction)}
+        ]
+
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/test1/accel.csv};
+        \end{axis}
+    \end{tikzpicture}
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            title = {Integrated Velocity-Time Graph}
+        ]
+
+            \addplot[color=icecyan,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/test1/vel.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            title = {Integrated Displacement-Time Graph}
+        ]
+
+            \addplot[color=iceblue,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/test1/displ.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{The Progressive Progress of Numerically integrating accelerometer data}
+    \label{fig:int1}
+\end{figure}
+
+    Clearly this looks...like it could be better. One very apparent issue is that the integrated velocity-time graph ends with a velocity lower than zero! The reason for why it happened could be because the accelerometer data is not centered, but looking at it again it is centered as it starts with 0 acceleration and ends with 0 acceleration.
+    To center it we use the following code:
+\begin{minted}{python}
+average_acceleration = sum(acceleration)/len(acceleration) # The sum of the accelerometer data divided by the number of items
+processed = [] # A blank array
+for datum in acceleration:
+    processed.append(datum-average acceleration) # Subtracting the bias from each point
+\end{minted}
+
+and we get the following integrations
+
+% \begin{figure}[htbp]
+%     \center
+%     \begin{tikzpicture}
+%         \begin{axis} [
+%             % xmin = 0,
+%             % xmax = 10,
+%             % ymin = -10,
+%             % ymax=10,
+%             width = \textwidth,
+%             height = 5cm,
+%             axis lines = middle,
+%             xticklabel style = {yshift = -15},
+%             title = {Raw Accelerometer-Time Graph ("X" Direction)}
+%         ]
+%
+%             \addplot[color=icegreen,very thick]
+%             table[
+%                 x=Time,
+%                 y=x,
+%                 col sep=comma
+%             ]{data/test2/accel.csv};
+%         \end{axis}
+%     \end{tikzpicture}
+%
+%     \begin{tikzpicture}
+%         \begin{axis} [
+%             % xmin = 0,
+%             % xmax = 10,
+%             % ymin = -10,
+%             % ymax=10,
+%             width = \textwidth,
+%             height = 5cm,
+%             axis lines = middle,
+%             title = {Integrated Velocity-Time Graph}
+%         ]
+%
+%             \addplot[color=icecyan,very thick]
+%             table[
+%                 x=Time,
+%                 y=x,
+%                 col sep=comma
+%             ]{data/test2/vel.csv};
+%         \end{axis}
+%     \end{tikzpicture}
+%
+%     \begin{tikzpicture}
+%         \begin{axis} [
+%             % xmin = 0,
+%             % xmax = 10,
+%             % ymin = -10,
+%             % ymax=10,
+%             width = \textwidth,
+%             height = 5cm,
+%             axis lines = middle,
+%             title = {Integrated Displacement-Time Graph}
+%         ]
+%
+%             \addplot[color=iceblue,very thick]
+%             table[
+%                 x=Time,
+%                 y=x,
+%                 col sep=comma
+%             ]{data/test2/displ.csv};
+%         \end{axis}
+%     \end{tikzpicture}
+%     \caption{The Progressive Progress of Numerically integrating accelerometer data}
+%     \label{fig:int2}
+% \end{figure}
 
 \end{document}
