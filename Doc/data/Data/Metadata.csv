@@ -1,0 +1,2 @@
+version,device name,recording epoch time,recording time,recording timezone,platform,appVersion,device id,sensors,sampleRateMs,standardisation,platform version
+3,A059,1788692031966,2026-09-06_10-53-51,Asia/Shanghai,android,1.64,941f1deb-c5fa-4bb6-80f5-ebe5aa5845b6,Gravity|Orientation|Annotation,0|0|,true,36

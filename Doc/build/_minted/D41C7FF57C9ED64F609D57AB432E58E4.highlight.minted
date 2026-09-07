@@ -1,6 +1,0 @@
-\begin{MintedVerbatim}[commandchars=\\\{\}]
-\PYG{n}{average\PYGZus{}acceleration} \PYG{o}{=} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{acceleration}\PYG{p}{)}\PYG{o}{/}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{acceleration}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} The sum of the accelerometer data divided by the number of items}
-\PYG{n}{processed} \PYG{o}{=} \PYG{p}{[]} \PYG{c+c1}{\PYGZsh{} A blank array}
-\PYG{k}{for} \PYG{n}{datum} \PYG{o+ow}{in} \PYG{n}{acceleration}\PYG{p}{:}
-    \PYG{n}{processed}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{datum}\PYG{o}{\PYGZhy{}}\PYG{n}{average} \PYG{n}{acceleration}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Subtracting the bias from each point}
-\end{MintedVerbatim}

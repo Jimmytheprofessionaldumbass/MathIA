@@ -9,6 +9,8 @@
 \usepackage{amsmath}
 \usepackage{pgfplots}
 \usepackage{tikz}
+\usepackage{graphicx}
+\graphicspath{{images/}}
 \usetikzlibrary{patterns}
 \pgfplotsset{compat=1.18, width=10cm}
 
@@ -76,18 +78,18 @@ To calculate the area bounded by the x axis and the line created from two datapo
 
 which is thus computed in python code
 
-\begin{minted}{python}
-dt = final_time - initial_time
-dx_accel = final_accel - initial_accel
-dx_vel = (dt * initial_accel) + ((1/2) * dt * dx_accel)
-# triangle area + square area = area under accel graph = change in velocity
-\end{minted}
+% \begin{minted}{python}
+% dt = final_time - initial_time
+% dx_accel = final_accel - initial_accel
+% dx_vel = (dt * initial_accel) + ((1/2) * dt * dx_accel)
+% # triangle area + square area = area under accel graph = change in velocity
+% \end{minted}
 
 
 \subsection{Testing the waters}
     
 
-the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. As a basic test of the practicality I moved my phone left and right 5 times on my table starting and ending at 0 velocity. Below we get the following graph of raw data of x y and z acceleration with respect to time:
+the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. For this first model I moved my phone left and right 5 times on my table starting and ending at 0 velocity.
 
 \begin{figure}[htbp]
     \center
@@ -110,96 +112,15 @@ the same idea will be repeated for each axis and afterwards applied to the calcu
                 x=Time,
                 y=x,
                 col sep=comma
-            ]{data/test1/accel.csv};
+            ]{data/best.csv};
         \end{axis}
     \end{tikzpicture}
-
-    \begin{tikzpicture}
-        
-        \begin{axis} [
-            % xmin = 0,
-            % xmax = 10,
-            % ymin = -10,
-            % ymax=10,
-            width = \textwidth,
-            height = 5cm,
-            axis lines = middle,
-            xticklabel style = {yshift = -15},
-            title = {Raw Accelerometer-Time Graph ("Y" Direction)}
-        ]
-
-            \addplot[color=icecyan,very thick]
-            table[
-                x=Time,
-                y=y,
-                col sep=comma
-            ]{data/test1/accel.csv};
-        \end{axis}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}
-        \begin{axis} [
-            % xmin = 0,
-            % xmax = 10,
-            % ymin = -10,
-            % ymax=10,
-            width = \textwidth,
-            height = 5cm,
-            axis lines = middle,
-            xticklabel style = {yshift = -15},
-            title = {Raw Accelerometer-Time Graph ("Z" Direction)}
-        ]
-
-            \addplot[color=iceblue,very thick]
-            table[
-                x=Time,
-                y=z,
-                col sep=comma
-            ]{data/test1/accel.csv};
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Raw Accelerometer Data On X, Y and Z axis Respectively}
-    \label{fig:Label Name}
-\end{figure}    
-
-\subsection{Axis definitions for phone directions}
-It appears that the X axis best represents left-right movement, after further experimentation, the axis of the phone is established as illustrated:
-
-\begin{figure}[htbp]
-    \center
-        \begin{tikzpicture} [scale=0.5]
-            \draw [very thick, rounded corners=6] (0,0) rectangle (5, 10);
-            % \draw [thick, color=iceblue] (0,.5) -- (5,.5);
-            \filldraw [color=black] (2.5, 9.5) circle (0.1);
-            \filldraw [color=black!50] (2.5, 9.5) circle (0.05);
-            \draw [very thick] (5.1, 5) -- (5.1, 6);
-            \draw [very thick] (5.1, 4) -- (5.1, 4.5);
-            \draw [very thick] (-0.1, 4.75) -- (-0.1, 5.5);
-            \draw [very thick] (-0.1, 5.75) -- (-0.1, 6.5);
-
-            \draw [<-, very thick] (-3.5, 5) -- (-0.3, 5);
-            \node[above=5pt] at (-4, 5) {Negative X axis};
-
-            \draw [->, very thick] (5.3, 5) -- (8.5, 5);
-            \node[above=5pt] at (9, 5) {Positive X axis};
-
-            \draw [->, very thick] (2.5, 10.3) -- (2.5, 12);
-            \node[right=15pt] at (2.5, 11) {Positive Y axis};
-
-            \draw [->, very thick] (2.5, -0.3) -- (2.5, -2);
-            \node[right=15pt] at (2.5, -1) {Negative Y axis};
-
-            % \draw [<-, very thick] (-0.5, 8) -- (2.5, 5);
-            % \node[above=5pt,right=15pt] at (1, 7.5) {Positive Z axis};
-            %
-            % \draw [->, very thick] (2.5, 5) -- (5.5, 2);
-            % \node[below=5pt,left=15pt] at (4, 3.5) {Negative Z axis};
-        \end{tikzpicture}
-    \caption{Diagram of respective axis to the phone}
-    \label{fig:axis}
+    \caption{Raw accelerometer data on the X axis}
+    \label{fig:raw-x-acceleration}
 \end{figure}
 
 And integrating the x-axis with the aforementioned algorithm we get this series of integrations
+ expressed graphically (Assume this part will be corrected to the values given by the actual)
 
 \begin{figure}[htbp]
     \center
@@ -269,85 +190,101 @@ And integrating the x-axis with the aforementioned algorithm we get this series 
     \caption{The Progressive Progress of Numerically integrating accelerometer data}
     \label{fig:int1}
 \end{figure}
+\pagebreak
 
-    Clearly this looks...like it could be better. One very apparent issue is that the integrated velocity-time graph ends with a velocity lower than zero! The reason for why it happened could be because the accelerometer data is not centered, but looking at it again it is centered as it starts with 0 acceleration and ends with 0 acceleration.
-    To center it we use the following code:
-\begin{minted}{python}
-average_acceleration = sum(acceleration)/len(acceleration) # The sum of the accelerometer data divided by the number of items
-processed = [] # A blank array
-for datum in acceleration:
-    processed.append(datum-average acceleration) # Subtracting the bias from each point
-\end{minted}
+Plugging into desmos for Sinusoidal regression we get:
+\begin{equation}
+    y=0.14272\cdot\sin\left(6.6486x+0.216978\right)-0.00389886
+\end{equation}
 
-and we get the following integrations
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.75\textwidth]{desmos}
+    \caption{graph of our accelerometer data and the fitted curve}
+    \label{fig:desmos}
+\end{figure}
+seen in figure \ref{fig:desmos}.
+We will integrate this analytically twice:
+\begin{equation}
+    v(t) = \int \left(a\cdot\sin\left(bt+c\right)-d\right)\diff t
+\end{equation}
+where a, b, c, and d are constants. Rearranged, we get
+\begin{equation}
+    v(t) = a \int \sin(bt+c)\diff t - \int d \diff t
+\end{equation}
+Using u-substitution
+\begin{align}
+    u &= bt+c \\
+    \frac{\diff u}{\diff t} &= b \\
+    \diff t &= \frac{\diff u}{b}
+\end{align}
+plugging in u and dt:
+\begin{align}
+    v(t) &= a \int \sin(bt+c)\diff t - \int d \diff t \\
+    &= a \int \sin(u) \frac{1}{b} \diff u - \int d \diff t \\
+    &= \frac{a}{b}\int \sin(u)  \diff u - \int d \diff t \\
+    &= -\frac{a}{b}\cos(u) - \int d \diff t \\
+    &= -\frac{a}{b}\cos(bt+c) - dt + C_{1}
+\end{align}
+and since we know the constant represents the initial velocity, and since we start at rest, we need to find the constant $C_{1}$ such that $v(0)=0$
+\begin{align}
+    v(0) &= -\frac{a}{b}\cos(\left(0\right)b+c) - \left(0\right)d + C_{1} = 0 \\
+    \frac{a}{b}\cos(c) &= C_{1} = 0.0209628448456 \\
+\end{align}
+For now, we will keep in mind that $C_{1} = 0.0209628448456$ but continue using $C_{1}$ throughout integration for convenience. To find the displacement function with respect to time we integrate again.
+\begin{align}
+    s(t) &= \int \left(-\frac{a}{b}\cos(bt+c) - dt + C_{1}\right) \diff t \\
+    s(t) &= -\frac{a}{b} \int\cos(bt+c)\diff t - \int dt\diff t + \int C_{1}\diff t \\
+    s(t) &= -\frac{a}{b} \int\cos(bt+c)\diff t - \int dt\diff t + \int C_{1}\diff t \\
+\end{align}
+Using the same u-substitution:
+\begin{align}
+    s(t) &= -\frac{a}{b} \int\cos(u)\frac{\diff u}{b} - \int dt\diff t + \int C_{1}\diff t \\
+    s(t) &= -\frac{a}{b^{2}} \sin(u) - \int dt\diff t + \int C_{1}\diff t + C_{2} \\
+    s(t) &= -\frac{a}{b^{2}} \sin(bt+c) - \int dt\diff t + \int C_{1}\diff t + C_{2} \\
+    s(t) &= -\frac{a}{b^{2}} \sin(bt+c) - \frac{dt^{2}}{2} + C_{1}t + C_{2} \\
+\end{align}
+and since this data is filmed as relative displacement from original point (seen as 0) we need to find the value of $C_{2}$ such that $s(0)=0$. [Ai said wording was bad, I don't understand why]
+\begin{align}
+    s(0) &= -\frac{a}{b^{2}} \sin(b\left(0\right)+c) - \frac{d\left(0\right)^{2}}{2} + C_{1}\left(0\right) + C_{2} = 0 \\
+    0 &= -\frac{a}{b^{2}} \sin(b\left(0\right)+c) + C_{2} \\
+    \frac{a}{b^{2}} \sin(b\left(0\right)+c) &= C_{2} = 0.000695067592524 \\
+\end{align}
+Again we will keep $C_{2}=0.000695067592524 $ in mind.
+Resulting in a final function $s(t)$:
+\begin{equation}
+    s(t) = -\frac{a}{b^{2}} \sin(bt+c) - \frac{dt^{2}}{2} + C_{1}t + C_{2}
+\end{equation}
+drawing a graph of progressive integration is seen in figure \ref{fig:model representation}
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+        \begin{axis} [xmin=0, xmax=5, ymin=-0.2, ymax=0.2, samples=2000]
+            \addplot[mark=none, color=icegreen] {-0.00322867571063*sin(6.6486*x+0.216978) + 0.00389886*x^2 + 0.0209628448456*x + 0.000695067592524};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{graph of the model being integrated twice}
+    \label{fig:model representation}
+\end{figure}
+????
 
-% \begin{figure}[htbp]
-%     \center
-%     \begin{tikzpicture}
-%         \begin{axis} [
-%             % xmin = 0,
-%             % xmax = 10,
-%             % ymin = -10,
-%             % ymax=10,
-%             width = \textwidth,
-%             height = 5cm,
-%             axis lines = middle,
-%             xticklabel style = {yshift = -15},
-%             title = {Raw Accelerometer-Time Graph ("X" Direction)}
-%         ]
-%
-%             \addplot[color=icegreen,very thick]
-%             table[
-%                 x=Time,
-%                 y=x,
-%                 col sep=comma
-%             ]{data/test2/accel.csv};
-%         \end{axis}
-%     \end{tikzpicture}
-%
-%     \begin{tikzpicture}
-%         \begin{axis} [
-%             % xmin = 0,
-%             % xmax = 10,
-%             % ymin = -10,
-%             % ymax=10,
-%             width = \textwidth,
-%             height = 5cm,
-%             axis lines = middle,
-%             title = {Integrated Velocity-Time Graph}
-%         ]
-%
-%             \addplot[color=icecyan,very thick]
-%             table[
-%                 x=Time,
-%                 y=x,
-%                 col sep=comma
-%             ]{data/test2/vel.csv};
-%         \end{axis}
-%     \end{tikzpicture}
-%
-%     \begin{tikzpicture}
-%         \begin{axis} [
-%             % xmin = 0,
-%             % xmax = 10,
-%             % ymin = -10,
-%             % ymax=10,
-%             width = \textwidth,
-%             height = 5cm,
-%             axis lines = middle,
-%             title = {Integrated Displacement-Time Graph}
-%         ]
-%
-%             \addplot[color=iceblue,very thick]
-%             table[
-%                 x=Time,
-%                 y=x,
-%                 col sep=comma
-%             ]{data/test2/displ.csv};
-%         \end{axis}
-%     \end{tikzpicture}
-%     \caption{The Progressive Progress of Numerically integrating accelerometer data}
-%     \label{fig:int2}
-% \end{figure}
+We have a displacement/time graph from video. However it is a different sampling rate (120hz) than the recorded datapoints (100hz). Hence we will attempt to align by drawing a line between the points in the recorded accelerometer data, and interpolate the value.
+
+\begin{figure}[htbp]
+    \center
+    \begin{tikzpicture}
+        \begin{axis} [xmin=2,xmax=3,ymin=0,ymax=3,grid=major,xtick={1,2,3},ytick={1,2,3}]
+            \fill[pattern=north west lines, pattern color=iceblue] (2,2) -- (3,3) -- (3,0) -- (2,0) -- cycle;
+            \draw [color=icecyan,very thick] (2,2) -- (3,3);
+            \draw [color=black,very thick,dashed] (2.5,2.5) -- (2.5,0);
+            \fill (2.5, 2.5) circle (2pt);
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Illustration of interpolating values from two datapoints $x=2,3$}
+    \label{fig:interpolating values}
+\end{figure}
+
+
+
 
 \end{document}
