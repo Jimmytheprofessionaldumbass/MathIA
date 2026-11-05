@@ -97,10 +97,15 @@ Lets say we have two data points, the second data point's y-value could either b
     \caption{The three conditions of integration}
 \end{figure}
 
-But of course our data isn't just two points, but for the first two points, we find the area, and then the integral function's will use that area as the y-value for the new point. And the point's x-value should be in between the two points that we calculated the area with. And if we have another point, the integral function's corresponding new point's y-value will be the previous point's y-value plus the area between the new point and the previous point, and once again the x-value will be in between the two points in which the area is calculated from.
+But of course our data isn't just two points, but for the first two points, we find the area, and then the integral function's will use that area as the y-value for the new point. And the point's x-value should be in between the two points that we calculated the area with. And if we have another point, the integral function's corresponding new point's y-value will be the previous point's y-value plus the area between the new point and the previous point, and once again the x-value will be in between the two points in which the area is calculated from. 
+So this is the data we collected from swinging the phone left to right 5 times.
 
-I wrote a program in python that does exactly that:
 
+
+So now have the tools to numerically integrate a piece of data, giving us a velocity-time graph. Shown below
+
+
+If we integrate again, we can finally get a displacement-time graph.
 
 
 \begin{figure}[h] %remove the unnecessary coordinates and add other possibilities of trapezoidal integration
@@ -354,5 +359,15 @@ We have a displacement/time graph from video. However it is a different sampling
 
 
 
+\section{Appendix}
+
+\subsection{Python code}
+\begin{minted}{python}
+dt = final_time - initial_time
+dx_accel = final_accel - initial_accel
+dx_vel = (dt * initial_accel) + ((1/2) * dt * dx_accel)
+# triangle area + square area = area under accel graph = change in velocity
+\end{minted}
+    
 
 \end{document}
