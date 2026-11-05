@@ -1,6 +1,6 @@
 % !TeX root = main.tex
 \documentclass[12pt]{article}
-\title{Investigating positional accuracy by double integrating accelerometer data}
+\title{Investigating accelerometer accuracy by integrating twice}
 % \author{Jimmy Zeng}
 
 \usepackage{listings}
@@ -29,12 +29,81 @@
 \pagebreak
 \tableofcontents
     \section{Introduction}
-        Inertial Odometry has been studied with a variety of applications, whenever you need to know the precise location of something instantly, chances are that double integrating accelerometer data outpaces GPS solutions. From robotics to step trackers, they all rely on the property that the area under a accelerometer graph can provide enough data used to compute the displacement of the object. In this investigation we will explore the accuracy of double integrating accelerometer data recorded on a phone during travel to find path traveled to get to school and create a visual representation of the position with respect to time and comparing with GPS data.
+        In Vex robotics, there are sensors for quickly measuring locations for accurate repeated robotic automationos. And the most useful one is an IMU. An inertial measurement unit (IMU) is a sensor that measures acceleration at a high rate. Whenever you need to know the precise location of something quickly, double integrating accelerometer data outpaces GPS solutions. They rely on the property that the area under a accelerometer graph can provide enough data used to compute the displacement of the object. In this investigation we will explore numerical and analytical integration of the accuracy of accelerometer data recorded on a phone accelerometer and comparing with video recorded displacement.
 
         \pagebreak
-    \section{Numerical Integration and code application}
-        Recall that in kinematics integrating acceleration gives velocity, and integrating once again gives displacement. For discrete-time data, this cannot be solve analytically. Instead we refer to the trapezoidal method, illustrated below:
-\begin{figure}[h]
+\section{How to find displacement from acceleration graph}
+    Recall that in kinematics acceleration is defined as the derivative of velocity
+\begin{equation}
+    a = \frac{\diff v}{\diff t}
+\end{equation}
+
+To find the derivative from first principals, we use limits:
+
+\begin{equation}
+    \lim_{h \to 0}  \frac{v(t+h) - v(t)}{h}
+\end{equation}
+and $v(t+h) - v(t)$ essentially means the change in velocity over a short period of time $h$. And as $h$ approaches 0, it becomes an increasingly more accurate representation of the derivative of acceleration, velocity. And this means that for our data to be accurate, the sample rate has to be high.
+
+Recall the fact that velocity is the integral of acceleration and displacement is the integral of velocity. Integral is the area under a curve. For continuous functions, they are an approximateted by dividing the function into many "rectangles" like shown below where the height of a specific rectangle at a specific point of the function is the y value of the function like shown below. 
+
+
+\begin{figure}[htbp]
+    \center
+    
+    \caption{Function area approximated with rectangles}
+    \label{fig:Label Name}
+\end{figure}
+
+As the width of the rectangles becomes smaller and smaller, the accuracy increases. So in terms of collecting our data, having data with higher sample rate then it would become more accurate. % really is it "accurate" though?
+
+But instead of using rectangles to find the area under the curve, we can just use basic geometric equations like the equation for finding the area of a triangle and rectangle. % better to remove this?
+
+\begin{figure}[htbp]
+    \center
+    \begin{equation}
+        A_{triangle} = \frac{1}{2}b_{t}\cdot h_{t}
+    \end{equation}
+    \caption{The formula finding the area of a triangle}
+\end{figure}
+\begin{figure}[htbp]
+    \center
+    \begin{equation}
+        A_{rectangle} = b_{r}\cdot h_{r}
+    \end{equation}
+    \caption{Formula for the area of a rectangle}
+\end{figure}
+
+the subscripts r and t indicate which base we are refering to (for instance it is the triangles rather than the rectangle's)
+
+Lets say we have two data points, the second data point's y-value could either be higher, lower, or equal to the y-value of the first point (shown below). And the numerical integral is essentially the area under between these two points, which can be calculated with the previous geometric equations illustrated below labeled with the equations
+
+\begin{figure}[htbp]
+    \center
+    \begin{tikzpicture}
+        \draw [pattern=north west lines, pattern color=iceblue] (-2,1) -- (-2,0) -- node[below, fill=white,inner sep = 0.5pt] {$b_{r}$} 
+            (-1,0) -- node[right, fill=white,inner sep = 0.5pt] {$h_{r}$}(-1,1) -- cycle;
+
+        \draw [pattern=north west lines, pattern color=icegreen] (0,1) -- (1,2) -- node[above, fill=white,inner sep = 0.5pt] {$h_{t}$} 
+            (1,1) -- node[right, fill=white,inner sep = 0.5pt] {$b_{t}$}cycle;
+        \draw [pattern=north west lines, pattern color=iceblue] (0,1) -- (0,0) -- node[below, fill=white,inner sep = 0.5pt] {$b_{r}$} 
+            (1,0) -- node[right, fill=white,inner sep = 0.5pt] {$h_{r}$}(1,1) -- cycle;
+
+        \draw [pattern=north west lines, pattern color=icegreen] (2,1) -- node[above, fill=white,inner sep = 0.5pt]{$h_{t}$} 
+            (2,2) -- (3,1) -- node[left, fill=white,inner sep = 0.5pt] {$b_{t}$}cycle;
+        \draw [pattern=north west lines, pattern color=iceblue] (2,1) -- (2,0) -- node[below, fill=white,inner sep = 0.5pt] {$b_{r}$} 
+            (3,0) -- node[right, fill=white,inner sep = 0.5pt] {$h_{r}$}(3,1) -- cycle;
+    \end{tikzpicture}
+    \caption{The three conditions of integration}
+\end{figure}
+
+But of course our data isn't just two points, but for the first two points, we find the area, and then the integral function's will use that area as the y-value for the new point. And the point's x-value should be in between the two points that we calculated the area with. And if we have another point, the integral function's corresponding new point's y-value will be the previous point's y-value plus the area between the new point and the previous point, and once again the x-value will be in between the two points in which the area is calculated from.
+
+I wrote a program in python that does exactly that:
+
+
+
+\begin{figure}[h] %remove the unnecessary coordinates and add other possibilities of trapezoidal integration
     \center
     
 \begin{tikzpicture}
@@ -76,7 +145,6 @@ To calculate the area bounded by the x axis and the line created from two datapo
     \Delta v = \int_{a}^{b} a(t)\diff t = \Delta t \cdot a_{0} + \frac{1}{2} \Delta t \cdot a_{f}
 \end{equation}
 
-which is thus computed in python code
 
 % \begin{minted}{python}
 % dt = final_time - initial_time
