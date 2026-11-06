@@ -80,7 +80,7 @@ Lets say we have two data points, the second data point's y-value could either b
 
 \begin{figure}[htbp]
     \center
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=2]
         \draw [pattern=north west lines, pattern color=iceblue] (-2,1) -- (-2,0) -- node[below, fill=white,inner sep = 0.5pt] {$b_{r}$} 
             (-1,0) -- node[right, fill=white,inner sep = 0.5pt] {$h_{r}$}(-1,1) -- cycle;
 
@@ -93,6 +93,15 @@ Lets say we have two data points, the second data point's y-value could either b
             (2,2) -- (3,1) -- node[left, fill=white,inner sep = 0.5pt] {$b_{t}$}cycle;
         \draw [pattern=north west lines, pattern color=iceblue] (2,1) -- (2,0) -- node[below, fill=white,inner sep = 0.5pt] {$b_{r}$} 
             (3,0) -- node[right, fill=white,inner sep = 0.5pt] {$h_{r}$}(3,1) -- cycle;
+
+        \draw (0,1) circle (2pt);
+        \draw (1,2) circle (2pt);
+
+        \draw (3,1) circle (2pt);
+        \draw (2,2) circle (2pt);
+
+        \draw (-2,1) circle (2pt);
+        \draw (-1,1) circle (2pt);
     \end{tikzpicture}
     \caption{The three conditions of integration}
 \end{figure}
@@ -101,6 +110,33 @@ But of course our data isn't just two points, but for the first two points, we f
 So this is the data we collected from swinging the phone left to right 5 times.
 
 
+\begin{figure}[htbp]
+    \center
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Raw Accelerometer-Time Graph ("X" Direction)}
+        ]
+
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/best.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Raw accelerometer data on the X axis}
+    \label{fig:raw-x-acceleration}
+\end{figure}
 
 So now have the tools to numerically integrate a piece of data, giving us a velocity-time graph. Shown below
 
@@ -164,33 +200,6 @@ To calculate the area bounded by the x axis and the line created from two datapo
 
 the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. For this first model I moved my phone left and right 5 times on my table starting and ending at 0 velocity.
 
-\begin{figure}[htbp]
-    \center
-    
-    \begin{tikzpicture}
-        \begin{axis} [
-            % xmin = 0,
-            % xmax = 10,
-            % ymin = -10,
-            % ymax=10,
-            width = \textwidth,
-            height = 5cm,
-            axis lines = middle,
-            xticklabel style = {yshift = -15},
-            title = {Raw Accelerometer-Time Graph ("X" Direction)}
-        ]
-
-            \addplot[color=icegreen,very thick]
-            table[
-                x=Time,
-                y=x,
-                col sep=comma
-            ]{data/best.csv};
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Raw accelerometer data on the X axis}
-    \label{fig:raw-x-acceleration}
-\end{figure}
 
 And integrating the x-axis with the aforementioned algorithm we get this series of integrations
  expressed graphically (Assume this part will be corrected to the values given by the actual)

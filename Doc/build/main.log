@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.10)  5 NOV 2026 22:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.10)  6 NOV 2026 14:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -528,11 +528,12 @@ LaTeX Warning: No \author given.
 \openout5 = `main.toc'.
 
  [2] [3]
+PGFPlots: reading {data/best.csv}
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [4]
-PGFPlots: reading {data/best.csv}
 PGFPlots: reading {data/test1/accel.csv}
 PGFPlots: reading {data/test1/vel.csv}
 PGFPlots: reading {data/test1/displ.csv}
@@ -540,30 +541,36 @@ PGFPlots: reading {data/test1/displ.csv}
 <images/desmos.png, id=34, 648.4225pt x 719.68875pt>
 File: images/desmos.png Graphic file (type png)
 <use images/desmos.png>
-Package pdftex.def Info: images/desmos.png  used on input line 268.
+Package pdftex.def Info: images/desmos.png  used on input line 284.
 (pdftex.def)             Requested size: 292.5pt x 324.64761pt.
- [7 <./images/desmos.png (PNG copy)>] [8] [9] [10] [11]
-runsystem(latexminted cleantemp  --timestamp 20261105222601 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
+ [7 <./images/desmos.png (PNG copy)>] [8] [9]
+\pydata@fh@0=\write6
+\openout6 = `_FAD58DE7366495DB4650CFEFAC2FCD61.data.minted'.
 
- (build/main.aux)
+runsystem(latexminted config  --timestamp 20261106141459 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
+
+ (build/_FAD58DE7366495DB4650CFEFAC2FCD61.config.minted)
+runsystem(latexminted cleanconfig  --timestamp 20261106141459 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
+
+ (./build/_minted/default.style.minted) (./build/_minted/7F004742EA34B538769FB19688E17689.highlight.minted) [10] [11] (build/main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 29334 strings out of 467525
- 762515 string characters out of 5418982
- 1919331 words of memory out of 5000000
- 57813 multiletter control sequences out of 15000+600000
- 634014 words of font info for 62 fonts, out of 8000000 for 9000
+ 29623 strings out of 467525
+ 768883 string characters out of 5418982
+ 1921353 words of memory out of 5000000
+ 58088 multiletter control sequences out of 15000+600000
+ 634351 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  95i,12n,108p,739b,2104s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on build/main.pdf (11 pages, 245763 bytes).
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on build/main.pdf (11 pages, 260821 bytes).
 PDF statistics:
- 90 PDF objects out of 1000 (max. 8388607)
- 56 compressed objects within 1 object stream
+ 100 PDF objects out of 1000 (max. 8388607)
+ 62 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  22 words of extra memory for PDF output out of 10000 (max. 10000000)
 
