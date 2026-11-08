@@ -107,12 +107,10 @@ Lets say we have two data points, the second data point's y-value could either b
 \end{figure}
 
 But of course our data isn't just two points, but for the first two points, we find the area, and then the integral function's will use that area as the y-value for the new point. And the point's x-value should be in between the two points that we calculated the area with. And if we have another point, the integral function's corresponding new point's y-value will be the previous point's y-value plus the area between the new point and the previous point, and once again the x-value will be in between the two points in which the area is calculated from. 
-So this is the data we collected from swinging the phone left to right 5 times.
+So this is the data we collected from swinging the phone right to left 5 times. Positive means to the e Shown in Figure \ref{fig:raw-x-acceleration}
 
 
-\begin{figure}[htbp]
-    \center
-    
+\begin{figure}[H]
     \begin{tikzpicture}
         \begin{axis} [
             % xmin = 0,
@@ -136,46 +134,97 @@ So this is the data we collected from swinging the phone left to right 5 times.
     \end{tikzpicture}
     \caption{Raw accelerometer data on the X axis}
     \label{fig:raw-x-acceleration}
+\end{figure} 
+
+So now have the tools to numerically integrate a piece of data, giving us a velocity-time graph. Shown below in Figure \ref{fig:vel}
+
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Integrated Velocity-Time Graph}
+        ]
+
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/best_vel.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Integrated accelerometer data (velocity)}
+    \label{fig:vel}
+\end{figure}
+In theory, if we integrate again, we can finally get a displacement-time graph. But the velocity graph feels a little off because the area is mostly on the upper side of the x-axis, meaning if we were to integrate it, the displacement would start going towards the right rather than what actually happened: going right and left 5 times and then stopping. 
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Integrated Displacement-time graph}
+        ]
+
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/best_displ.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Integrated accelerometer data (Displacement)}
+    \label{fig:vel}
 \end{figure}
 
-So now have the tools to numerically integrate a piece of data, giving us a velocity-time graph. Shown below
-
-
-If we integrate again, we can finally get a displacement-time graph.
+One way I thought of to correct this is to center the accelerometer-time graph before integrating it into velocity. As you can see below
 
 
 \begin{figure}[h] %remove the unnecessary coordinates and add other possibilities of trapezoidal integration
     \center
     
-\begin{tikzpicture}
-    \draw[step=1cm] (0,0) grid (4,4);
-    \draw [black, very thick] (0,2) -- (2, 2);
-    \draw [black, very thick] (2,2) -- (4,4);
-    % \fill[pattern=north east lines, pattern color=green] (0,0) rectangle (2,2);
-    \fill[pattern=north west lines, pattern color=icegreen] (2,0) rectangle (4,2);
-    \fill[pattern=north west lines, pattern color=iceblue] (2,2) -- (4,2) -- (4,4) -- cycle;
-    \fill (0,2) circle (3pt);
-    \fill (2,2) circle (3pt);
-    \fill (4,4) circle (3pt);
-    \draw [black] (0, -0.1) -- (0, -0.3);
-    \draw [black] (0, -0.2) -- (2, -0.2);
-    \draw [black] (2, -0.1) -- (2, -0.3);
-    \draw [black] (2, -0.2) -- (4, -0.2);
-    \draw [black] (4, -0.1) -- (4, -0.3);
-    \node at (1, -0.5) {$\Delta t$};
-    \node at (3, -0.5) {$\Delta t$};
-    \draw [black] (4.1, 0) -- (4.3, 0);
-    \draw [black] (4.2, 0) -- (4.2, 2);
-    \draw [black] (4.1, 2) -- (4.3, 2);
-    \draw [black] (4.2, 2) -- (4.2, 4);
-    \draw [black] (4.1, 4) -- (4.3, 4);
-    \node [icegreen] at (4.7, 2) {$a_{0}$};
-    \node [iceblue] at (4.7, 4) {$a_{f}$};
-    \draw [icegreen, dashed, very thick] (2, 2) -- (4.5, 2);
-    \draw [iceblue, dashed, very thick] (4, 4) -- (4.5, 4);
-    \node [red]at (2, -0.7) {a};
-    \node [orange]at (4, -0.7) {b};
-\end{tikzpicture}
+% \begin{tikzpicture}
+%     \draw[step=1cm] (0,0) grid (4,4);
+%     \draw [black, very thick] (0,2) -- (2, 2);
+%     \draw [black, very thick] (2,2) -- (4,4);
+%     % \fill[pattern=north east lines, pattern color=green] (0,0) rectangle (2,2);
+%     \fill[pattern=north west lines, pattern color=icegreen] (2,0) rectangle (4,2);
+%     \fill[pattern=north west lines, pattern color=iceblue] (2,2) -- (4,2) -- (4,4) -- cycle;
+%     \fill (0,2) circle (3pt);
+%     \fill (2,2) circle (3pt);
+%     \fill (4,4) circle (3pt);
+%     \draw [black] (0, -0.1) -- (0, -0.3);
+%     \draw [black] (0, -0.2) -- (2, -0.2);
+%     \draw [black] (2, -0.1) -- (2, -0.3);
+%     \draw [black] (2, -0.2) -- (4, -0.2);
+%     \draw [black] (4, -0.1) -- (4, -0.3);
+%     \node at (1, -0.5) {$\Delta t$};
+%     \node at (3, -0.5) {$\Delta t$};
+%     \draw [black] (4.1, 0) -- (4.3, 0);
+%     \draw [black] (4.2, 0) -- (4.2, 2);
+%     \draw [black] (4.1, 2) -- (4.3, 2);
+%     \draw [black] (4.2, 2) -- (4.2, 4);
+%     \draw [black] (4.1, 4) -- (4.3, 4);
+%     \node [icegreen] at (4.7, 2) {$a_{0}$};
+%     \node [iceblue] at (4.7, 4) {$a_{f}$};
+%     \draw [icegreen, dashed, very thick] (2, 2) -- (4.5, 2);
+%     \draw [iceblue, dashed, very thick] (4, 4) -- (4.5, 4);
+%     \node [red]at (2, -0.7) {a};
+%     \node [orange]at (4, -0.7) {b};
+% \end{tikzpicture}
     \caption{Integrating two data points}
     \label{fig:trapezoidal integration}
 \end{figure}
@@ -204,74 +253,74 @@ the same idea will be repeated for each axis and afterwards applied to the calcu
 And integrating the x-axis with the aforementioned algorithm we get this series of integrations
  expressed graphically (Assume this part will be corrected to the values given by the actual)
 
-\begin{figure}[htbp]
-    \center
-    \begin{tikzpicture}
-        \begin{axis} [
-            % xmin = 0,
-            % xmax = 10,
-            % ymin = -10,
-            % ymax=10,
-            width = \textwidth,
-            height = 5cm,
-            axis lines = middle,
-            xticklabel style = {yshift = -15},
-            title = {Raw Accelerometer-Time Graph ("X" Direction)}
-        ]
-
-            \addplot[color=icegreen,very thick]
-            table[
-                x=Time,
-                y=x,
-                col sep=comma
-            ]{data/test1/accel.csv};
-        \end{axis}
-    \end{tikzpicture}
-    
-    \begin{tikzpicture}
-        \begin{axis} [
-            % xmin = 0,
-            % xmax = 10,
-            % ymin = -10,
-            % ymax=10,
-            width = \textwidth,
-            height = 5cm,
-            axis lines = middle,
-            title = {Integrated Velocity-Time Graph}
-        ]
-
-            \addplot[color=icecyan,very thick]
-            table[
-                x=Time,
-                y=x,
-                col sep=comma
-            ]{data/test1/vel.csv};
-        \end{axis}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}
-        \begin{axis} [
-            % xmin = 0,
-            % xmax = 10,
-            % ymin = -10,
-            % ymax=10,
-            width = \textwidth,
-            height = 5cm,
-            axis lines = middle,
-            title = {Integrated Displacement-Time Graph}
-        ]
-
-            \addplot[color=iceblue,very thick]
-            table[
-                x=Time,
-                y=x,
-                col sep=comma
-            ]{data/test1/displ.csv};
-        \end{axis}
-    \end{tikzpicture}
-    \caption{The Progressive Progress of Numerically integrating accelerometer data}
-    \label{fig:int1}
-\end{figure}
+% \begin{figure}[htbp]
+%     \center
+%     \begin{tikzpicture}
+%         \begin{axis} [
+%             % xmin = 0,
+%             % xmax = 10,
+%             % ymin = -10,
+%             % ymax=10,
+%             width = \textwidth,
+%             height = 5cm,
+%             axis lines = middle,
+%             xticklabel style = {yshift = -15},
+%             title = {Raw Accelerometer-Time Graph ("X" Direction)}
+%         ]
+%
+%             \addplot[color=icegreen,very thick]
+%             table[
+%                 x=Time,
+%                 y=x,
+%                 col sep=comma
+%             ]{data/test1/accel.csv};
+%         \end{axis}
+%     \end{tikzpicture}
+%
+%     \begin{tikzpicture}
+%         \begin{axis} [
+%             % xmin = 0,
+%             % xmax = 10,
+%             % ymin = -10,
+%             % ymax=10,
+%             width = \textwidth,
+%             height = 5cm,
+%             axis lines = middle,
+%             title = {Integrated Velocity-Time Graph}
+%         ]
+%
+%             \addplot[color=icecyan,very thick]
+%             table[
+%                 x=Time,
+%                 y=x,
+%                 col sep=comma
+%             ]{data/test1/vel.csv};
+%         \end{axis}
+%     \end{tikzpicture}
+%
+%     \begin{tikzpicture}
+%         \begin{axis} [
+%             % xmin = 0,
+%             % xmax = 10,
+%             % ymin = -10,
+%             % ymax=10,
+%             width = \textwidth,
+%             height = 5cm,
+%             axis lines = middle,
+%             title = {Integrated Displacement-Time Graph}
+%         ]
+%
+%             \addplot[color=iceblue,very thick]
+%             table[
+%                 x=Time,
+%                 y=x,
+%                 col sep=comma
+%             ]{data/test1/displ.csv};
+%         \end{axis}
+%     \end{tikzpicture}
+%     \caption{The Progressive Progress of Numerically integrating accelerometer data}
+%     \label{fig:int1}
+% \end{figure}
 \pagebreak
 
 Plugging into desmos for Sinusoidal regression we get:

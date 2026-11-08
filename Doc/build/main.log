@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.10)  6 NOV 2026 14:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.10)  8 NOV 2026 13:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -476,7 +476,11 @@ File: pgflibrarypatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (/usr/local/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count360
-) (build/main.aux)
+) (build/main.aux
+
+LaTeX Warning: Label `fig:vel' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -529,45 +533,44 @@ LaTeX Warning: No \author given.
 
  [2] [3]
 PGFPlots: reading {data/best.csv}
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[4]
-PGFPlots: reading {data/test1/accel.csv}
-PGFPlots: reading {data/test1/vel.csv}
-PGFPlots: reading {data/test1/displ.csv}
+ [4]
+PGFPlots: reading {data/best_vel.csv}
+PGFPlots: reading {data/best_displ.csv}
  [5] [6]
 <images/desmos.png, id=34, 648.4225pt x 719.68875pt>
 File: images/desmos.png Graphic file (type png)
 <use images/desmos.png>
-Package pdftex.def Info: images/desmos.png  used on input line 284.
+Package pdftex.def Info: images/desmos.png  used on input line 333.
 (pdftex.def)             Requested size: 292.5pt x 324.64761pt.
  [7 <./images/desmos.png (PNG copy)>] [8] [9]
 \pydata@fh@0=\write6
 \openout6 = `_FAD58DE7366495DB4650CFEFAC2FCD61.data.minted'.
 
-runsystem(latexminted config  --timestamp 20261106141459 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
+runsystem(latexminted config  --timestamp 20261108135648 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
 
  (build/_FAD58DE7366495DB4650CFEFAC2FCD61.config.minted)
-runsystem(latexminted cleanconfig  --timestamp 20261106141459 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
+runsystem(latexminted cleanconfig  --timestamp 20261108135648 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
 
  (./build/_minted/default.style.minted) (./build/_minted/7F004742EA34B538769FB19688E17689.highlight.minted) [10] [11] (build/main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 29623 strings out of 467525
- 768883 string characters out of 5418982
- 1921353 words of memory out of 5000000
- 58088 multiletter control sequences out of 15000+600000
+ 29599 strings out of 467525
+ 768378 string characters out of 5418982
+ 1914215 words of memory out of 5000000
+ 58067 multiletter control sequences out of 15000+600000
  634351 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 95i,12n,108p,739b,2104s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 95i,12n,108p,739b,2063s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on build/main.pdf (11 pages, 260821 bytes).
+Output written on build/main.pdf (11 pages, 242313 bytes).
 PDF statistics:
  100 PDF objects out of 1000 (max. 8388607)
  62 compressed objects within 1 object stream

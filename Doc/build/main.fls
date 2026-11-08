@@ -288,10 +288,9 @@ INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 OUTPUT build/main.toc
 INPUT data/best.csv
+INPUT data/best_vel.csv
+INPUT data/best_displ.csv
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT data/test1/accel.csv
-INPUT data/test1/vel.csv
-INPUT data/test1/displ.csv
 INPUT ./images/desmos.png
 INPUT ./images/desmos.png
 INPUT ./images/desmos.png

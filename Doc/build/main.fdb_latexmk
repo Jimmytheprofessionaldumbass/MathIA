@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1793945699.76441 "main.tex" "build/main.pdf" "main" 1793945712.27323 0
+["pdflatex"] 1794117407.88568 "main.tex" "build/main.pdf" "main" 1794117415.44236 0
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -184,14 +184,13 @@
   "build/_minted/7F004742EA34B538769FB19688E17689.highlight.minted" 1786605103.37796 629 3c3dd2921bc064ec16553c781b3b1ac2 ""
   "build/_minted/_FAD58DE7366495DB4650CFEFAC2FCD61.index.minted" 1793945053.84954 262 6806585c271f41e35cc0524bb6094a1b ""
   "build/_minted/default.style.minted" 1786605103.37822 6426 e1fb43a91491f41b33310478eee48cdb ""
-  "build/main.aux" 1793945711.31093 2699 ed4ab6a2db0582b3c9c9536101f7babe "pdflatex"
-  "build/main.toc" 1793945711.31625 344 97b003d8512c8a0946961036673db48b "pdflatex"
+  "build/main.aux" 1794117415.325 2859 6039434f65ffac87a835c2d224edd797 "pdflatex"
+  "build/main.toc" 1794117415.32717 344 3ee8d1951b97ec3dc09f52a869e95728 "pdflatex"
   "data/best.csv" 1791770433.1381 11146 f2c53f59673f4d78da4e3990691b61e5 ""
-  "data/test1/accel.csv" 1787290291.13095 39844 010cd616ae1d3bd791f8796106cd6510 ""
-  "data/test1/displ.csv" 1787290291.13563 39647 d0afef66086b5093d7c9494e46ae8748 ""
-  "data/test1/vel.csv" 1787290291.13322 39711 bd96cc8dc34f4f9c1cc9a56893f8dd83 ""
+  "data/best_displ.csv" 1794026798.26964 8945 682e89afa4db98903c036d8a58e4ad23 ""
+  "data/best_vel.csv" 1793950568.84974 9074 83b21b5e32c1a54f06ed15d78426b942 ""
   "images/desmos.png" 1791770433.1405 76758 0bda86dcafc3e95c6954d997a0d9b39c ""
-  "main.tex" 1793945690.76187 15835 e1ff7f13c466b26e97e2d3485dc283ad ""
+  "main.tex" 1794107990.9646 17868 357923dbdf6bb768b0cde3b40622cd34 ""
   (generated)
   "build/main.aux"
   "build/main.log"
