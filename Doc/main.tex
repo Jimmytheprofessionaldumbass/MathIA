@@ -11,7 +11,9 @@
 \usepackage{tikz}
 \usepackage{graphicx}
 \graphicspath{{images/}}
+\usepackage{subcaption}
 \usetikzlibrary{patterns}
+\usetikzlibrary{arrows.meta}
 \pgfplotsset{compat=1.18, width=10cm}
 
 \newcommand{\diff}{\ensuremath{\operatorname{d}\!}}
@@ -187,53 +189,125 @@ In theory, if we integrate again, we can finally get a displacement-time graph. 
         \end{axis}
     \end{tikzpicture}
     \caption{Integrated accelerometer data (Displacement)}
-    \label{fig:vel}
+    \label{fig:displ}
 \end{figure}
 
 One way I thought of to correct this is to center the accelerometer-time graph before integrating it into velocity. As you can see below
 
 
-\begin{figure}[h] %remove the unnecessary coordinates and add other possibilities of trapezoidal integration
-    \center
-    
-% \begin{tikzpicture}
-%     \draw[step=1cm] (0,0) grid (4,4);
-%     \draw [black, very thick] (0,2) -- (2, 2);
-%     \draw [black, very thick] (2,2) -- (4,4);
-%     % \fill[pattern=north east lines, pattern color=green] (0,0) rectangle (2,2);
-%     \fill[pattern=north west lines, pattern color=icegreen] (2,0) rectangle (4,2);
-%     \fill[pattern=north west lines, pattern color=iceblue] (2,2) -- (4,2) -- (4,4) -- cycle;
-%     \fill (0,2) circle (3pt);
-%     \fill (2,2) circle (3pt);
-%     \fill (4,4) circle (3pt);
-%     \draw [black] (0, -0.1) -- (0, -0.3);
-%     \draw [black] (0, -0.2) -- (2, -0.2);
-%     \draw [black] (2, -0.1) -- (2, -0.3);
-%     \draw [black] (2, -0.2) -- (4, -0.2);
-%     \draw [black] (4, -0.1) -- (4, -0.3);
-%     \node at (1, -0.5) {$\Delta t$};
-%     \node at (3, -0.5) {$\Delta t$};
-%     \draw [black] (4.1, 0) -- (4.3, 0);
-%     \draw [black] (4.2, 0) -- (4.2, 2);
-%     \draw [black] (4.1, 2) -- (4.3, 2);
-%     \draw [black] (4.2, 2) -- (4.2, 4);
-%     \draw [black] (4.1, 4) -- (4.3, 4);
-%     \node [icegreen] at (4.7, 2) {$a_{0}$};
-%     \node [iceblue] at (4.7, 4) {$a_{f}$};
-%     \draw [icegreen, dashed, very thick] (2, 2) -- (4.5, 2);
-%     \draw [iceblue, dashed, very thick] (4, 4) -- (4.5, 4);
-%     \node [red]at (2, -0.7) {a};
-%     \node [orange]at (4, -0.7) {b};
-% \end{tikzpicture}
-    \caption{Integrating two data points}
-    \label{fig:trapezoidal integration}
+
+\begin{figure}[H]
+    \begin{subfigure}{0.4\textwidth}
+        \begin{tikzpicture}
+            \begin{axis} [
+                % xmin = 0,
+                % xmax = 10,
+                % ymin = -10,
+                % ymax=10,
+                width = \textwidth,
+                height = 5cm,
+                axis lines = middle,
+                xticklabel style = {yshift = -15pt},
+                title = {Accel-Time graph (not aligned)}
+            ]
+
+                \addplot[color=icegreen,very thick]
+                table[
+                    x=Time,
+                    y=x,
+                    col sep=comma
+                ]{data/best.csv};
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.15\textwidth}
+        \begin{tikzpicture}
+            \draw [very thick, color=icecyan, -{Stealth}] (-1,0) -- (1,0);
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \begin{tikzpicture}
+            \begin{axis} [
+                % xmin = 0,
+                % xmax = 10,
+                % ymin = -10,
+                % ymax=10,
+                width = \textwidth,
+                height = 5cm,
+                axis lines = middle,
+                xticklabel style = {yshift = -15pt},
+                title = {Accel;Time graph (aligned)}
+            ]
+                \addplot[color=iceblue,very thick]
+                table[
+                    x=Time,
+                    y=x,
+                    col sep=comma
+                ]{data/aligned_best.csv};
+            \end{axis}
+        \end{tikzpicture}
+    \end{subfigure}
+    \caption{Raw accelerometer data on the X axis}
+    \label{fig:raw-x-acceleration-comp}
+\end{figure} 
+
+
+And now we try integrating again:
+
+
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Integrated velocity-time graph (with alignment)}
+        ]
+
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/aligned_best_vel.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Integrated velocity (aligned)}
+    \label{fig:vel (aligned)}
 \end{figure}
 
-To calculate the area bounded by the x axis and the line created from two datapoints, we use basic geometry equations
+Ok, much better. We should probably center it again before integrating it once more to get the displacement-time graph.
 
-\begin{equation}
-    \Delta v = \int_{a}^{b} a(t)\diff t = \Delta t \cdot a_{0} + \frac{1}{2} \Delta t \cdot a_{f}
-\end{equation}
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Integrated displacement-time graph (with alignment)}
+        ]
+
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/aligned_best_displ.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Integrated displacement (aligned)}
+    \label{fig:displ (aligned)}
+\end{figure}
 
 
 % \begin{minted}{python}
@@ -244,98 +318,45 @@ To calculate the area bounded by the x axis and the line created from two datapo
 % \end{minted}
 
 
-\subsection{Testing the waters}
-    
+\section{Modeling}
 
-the same idea will be repeated for each axis and afterwards applied to the calculated velocity values to find displacement. For this first model I moved my phone left and right 5 times on my table starting and ending at 0 velocity.
+I decided to compare integrating numerically against analytically; I want to know if there is a difference if I first modeled it with a sine equation and then integrated the equation algebraicly rather than numerically using geometry like I did before.
 
-
-And integrating the x-axis with the aforementioned algorithm we get this series of integrations
- expressed graphically (Assume this part will be corrected to the values given by the actual)
-
-% \begin{figure}[htbp]
-%     \center
-%     \begin{tikzpicture}
-%         \begin{axis} [
-%             % xmin = 0,
-%             % xmax = 10,
-%             % ymin = -10,
-%             % ymax=10,
-%             width = \textwidth,
-%             height = 5cm,
-%             axis lines = middle,
-%             xticklabel style = {yshift = -15},
-%             title = {Raw Accelerometer-Time Graph ("X" Direction)}
-%         ]
-%
-%             \addplot[color=icegreen,very thick]
-%             table[
-%                 x=Time,
-%                 y=x,
-%                 col sep=comma
-%             ]{data/test1/accel.csv};
-%         \end{axis}
-%     \end{tikzpicture}
-%
-%     \begin{tikzpicture}
-%         \begin{axis} [
-%             % xmin = 0,
-%             % xmax = 10,
-%             % ymin = -10,
-%             % ymax=10,
-%             width = \textwidth,
-%             height = 5cm,
-%             axis lines = middle,
-%             title = {Integrated Velocity-Time Graph}
-%         ]
-%
-%             \addplot[color=icecyan,very thick]
-%             table[
-%                 x=Time,
-%                 y=x,
-%                 col sep=comma
-%             ]{data/test1/vel.csv};
-%         \end{axis}
-%     \end{tikzpicture}
-%
-%     \begin{tikzpicture}
-%         \begin{axis} [
-%             % xmin = 0,
-%             % xmax = 10,
-%             % ymin = -10,
-%             % ymax=10,
-%             width = \textwidth,
-%             height = 5cm,
-%             axis lines = middle,
-%             title = {Integrated Displacement-Time Graph}
-%         ]
-%
-%             \addplot[color=iceblue,very thick]
-%             table[
-%                 x=Time,
-%                 y=x,
-%                 col sep=comma
-%             ]{data/test1/displ.csv};
-%         \end{axis}
-%     \end{tikzpicture}
-%     \caption{The Progressive Progress of Numerically integrating accelerometer data}
-%     \label{fig:int1}
-% \end{figure}
-\pagebreak
-
-Plugging into desmos for Sinusoidal regression we get:
+Desmos has a tool for fitting data into many types of equations. In particular, we are looking at a sinulsoidal regression
+\begin{equation}
+    y = a\sin(bx+c)+d
+\end{equation}
+Plugging into desmos for sinusoidal regression we get:
 \begin{equation}
     y=0.14272\cdot\sin\left(6.6486x+0.216978\right)-0.00389886
 \end{equation}
-
-\begin{figure}[htbp]
+seen in figure \ref{fig:desmos}.
+\begin{figure}[H]
     \centering
     \includegraphics[width=.75\textwidth]{desmos}
     \caption{graph of our accelerometer data and the fitted curve}
     \label{fig:desmos}
 \end{figure}
-seen in figure \ref{fig:desmos}.
-We will integrate this analytically twice:
+
+Intuitively, the last d term represents sensor drift, if we integrated $sin(x) + 1$ to find velocity $v(t)$:
+\begin{align}
+    v(t) &= \int sin(x) + 1 \diff x \\
+    &= -cos(x) + x + c
+\end{align}
+then, it's graph
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+        \begin{axis}[trig format plots=rad, samples = 100]
+            \addplot[mark=none,color=icegreen]  {sin(x) + x};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{graph of $\sin(x) + x$}
+\end{figure}
+would just go up indefinitely, which wouldn't make sense especially when I moved my the phone back and forth and ended at rest because if the velocity never comes back down to zero, it would never come back to rest. If we just remove the d term in $a\sin(bx+c) + d$ then, its integration won't have any drift. Removing the d term in this sinusoidal regression before integration is akin to centering the accelerometer data before integration in the numerical method.
+
+\section{Integrating to velocity}
+We will need to integrate once to get velocity:
 \begin{equation}
     v(t) = \int \left(a\cdot\sin\left(bt+c\right)-d\right)\diff t
 \end{equation}
@@ -357,12 +378,59 @@ plugging in u and dt:
     &= -\frac{a}{b}\cos(u) - \int d \diff t \\
     &= -\frac{a}{b}\cos(bt+c) - dt + C_{1}
 \end{align}
-and since we know the constant represents the initial velocity, and since we start at rest, we need to find the constant $C_{1}$ such that $v(0)=0$
+we get our velocity time equation
+
+\begin{equation}
+    v(t) = -\frac{a}{b}\cos(bt+c) - dt + C_{1}
+\end{equation}
+
+
+In kinematics, the constant $C_{1}$ is the initial velocity, and since we know that our initial velocity is 0, we can ignore $C_{1}$ and set it to zero...is what I would say if I didn't pay enough attention.
+Because if we find the constant $C_{1}$ of our modeled function when initial velocity $v(0)$ is actually $= 0$
 \begin{align}
-    v(0) &= -\frac{a}{b}\cos(\left(0\right)b+c) - \left(0\right)d + C_{1} = 0 \\
+    v(0) &= -\frac{a}{b}\cos(\left(0\right)b+c) + C_{1} = 0 \\
     \frac{a}{b}\cos(c) &= C_{1} = 0.0209628448456 \\
 \end{align}
+It is not actually zero! That's because since our initial acceleration (defined by $a\sin(bt+c) + d$) depends on both c and d to determine initial acceleration, and even when $d=0$, $c \neq 0$ which means our initial acceleration isn't actually zero, but why would that mean our initial velocity $C_{1}$ isn't zero then?
+
+
+That's because $C_{1}$ is dependent on the other terms a, b, and c. But still, it doesn't mean that $C_{1}$ doesn't depend on initial velocity, it may not depend on d, but d isn't the only value that determines initial velocity. 
+
+As we mentioned before, removing d from our sinusoidal regression removes a certain amount of drift; particularly to the extent that our velocity value can still return to zero (come to rest) no matter how large the value t (however long time has passed). But still, even without d: in order for $a(t)=a\sin(bt+c)$'s integrated velocity function $-\frac{a}{b}\cos(bt+c) + C_{1}$ to end at zero, we must also define the range of the function such that we end at $v(t) = -\frac{a}{b}\cos(bt+c) + C_{1} = 0$. In this case, we shouldn't focus on $a$ because that is solely the amplitude while b and c determine the horizontal characteristics of the sine wave function such as horizontal compression and phase shift. and phase shift in particular is responsible for where on the wave we start, and even if the vertical shift is 0, we could still start at the crest of the sine function, which would mean our initial velocity isn't zero. 
+
+So now we figured out that a $d>0$ will result in the velocity function $v(t) = -\frac{a}{b}\cos(bt+c) - dt + C_{1}$ to never reach zero as time $t$ increases, and setting $d=0$ will make it so we can still end up at zero. It doesn't exactly still imply that our displacement will go back to zero.
+
+. Regardless, we know if we continue integrating with an additional constant, its bound to add drift, because $\int c_{1} dx = c_{1}x+c$ and as x increases, the y value also goes up. But this time we have no choice but to keep it because, 
+
+
+and graphing it with the correct values we get the following graph
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+        \begin{axis}[trig format plots=rad, xmin = 0, xmax = 3, samples = 100]
+            \addplot[mark=none,color=icegreen]  {0.14272*sin(6.6486*x+0.216978)-0.00389886};
+            \addplot[mark=none,color=iceblue]  {(0.14272/6.6486)*cos(6.6486*x+0.216978) - 0.00389886*x + 0.0209628448456};
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=Displ,
+                col sep=comma
+            ]{data/actual displacement.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Velocity-time continuous function}
+    \label{fig:analytic vt}
+\end{figure}
+
+Where green is the original function and blue is the integrated function and the orange is the actual recorded displacement.
+
+
 For now, we will keep in mind that $C_{1} = 0.0209628448456$ but continue using $C_{1}$ throughout integration for convenience. To find the displacement function with respect to time we integrate again.
+
+
+\subsection{Integrating to displacement}
+
 \begin{align}
     s(t) &= \int \left(-\frac{a}{b}\cos(bt+c) - dt + C_{1}\right) \diff t \\
     s(t) &= -\frac{a}{b} \int\cos(bt+c)\diff t - \int dt\diff t + \int C_{1}\diff t \\
@@ -391,13 +459,47 @@ drawing a graph of progressive integration is seen in figure \ref{fig:model repr
     \center
     \begin{tikzpicture}
         \begin{axis} [xmin=0, xmax=5, ymin=-0.2, ymax=0.2, samples=2000]
-            \addplot[mark=none, color=icegreen] {-0.00322867571063*sin(6.6486*x+0.216978) + 0.00389886*x^2 + 0.0209628448456*x + 0.000695067592524};
+            \addplot[mark=none, color=icegreen] {-0.00322867571063*sin(6.6486*x+0.216978) + -0.00194943*x^2 + 0.0209628448456*x + 0.000695067592524};
         \end{axis}
     \end{tikzpicture}
     \caption{graph of the model being integrated twice}
     \label{fig:model representation}
 \end{figure}
-????
+
+\section{Comparison}
+We used two methods that both tries to find the displacement-time graph using a given accelerometer-time data, numerically and analytically.
+For the numerical approach, we have a lot of points that make up a graph when you connect the points. And since there are points, we can use geometry (although it is a lot of geometry) to find the area under a curve. We centered the data by subtracting each point by the mean of every point's y-value before integrating it numerically to reduce drift during integrated graphs.
+For the Analytical approach, we fitted a sinusoidal regression on the same accelerometer-time data and then we used algebra and integral calculus to integrate twice to find the displacement-time graph.
+Here is the both of them in one graph. The orange is the numerical method while the blue one is the analytical method.
+
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15},
+            title = {Displacement-time graph (Numerical + Analytical)}
+        ]
+
+            \addplot[color=orange,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/aligned_best_displ.csv};
+            \addplot[mark=none, color=icegreen] {-0.00322867571063*sin(6.6486*x+0.216978) + -0.00194943*x^2 + 0.0209628448456*x + 0.000695067592524};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Comparison between integration methods}
+\end{figure}
+\section{Video}
+    
+    
 
 We have a displacement/time graph from video. However it is a different sampling rate (120hz) than the recorded datapoints (100hz). Hence we will attempt to align by drawing a line between the points in the recorded accelerometer data, and interpolate the value.
 

@@ -1,7 +1,7 @@
 import csv
 import math
 
-with open("best.csv") as dataobject:
+with open("aligned_best_vel.csv") as dataobject:
     data = tuple(tuple(float(item) for item in row) for row in list(csv.reader(dataobject))[1:])
     '''((0.0, -0.120582856), (0.004999756, -0.120273575)'''
     
@@ -22,10 +22,10 @@ with open("best.csv") as dataobject:
         except IndexError:
             break
 
-with open('aligned_best.csv', 'w') as velfile:
+with open('aligned_best_displ.csv', 'w') as velfile:
     file = csv.writer(velfile)
     file.writerow(('Time', 'x'))
     file.writerows(
         [format(datum, 'f') for datum in row]
-        for row in vel
+        for row in vel # output source
         )

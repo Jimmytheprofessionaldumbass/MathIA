@@ -1,5 +1,9 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{}%
 \contentsline {section}{\numberline {2}How to find displacement from acceleration graph}{3}{}%
-\contentsline {subsection}{\numberline {2.1}Testing the waters}{6}{}%
-\contentsline {section}{\numberline {3}Appendix}{10}{}%
-\contentsline {subsection}{\numberline {3.1}Python code}{10}{}%
+\contentsline {section}{\numberline {3}Modeling}{7}{}%
+\contentsline {section}{\numberline {4}Integrating to velocity}{9}{}%
+\contentsline {subsection}{\numberline {4.1}Integrating to displacement}{12}{}%
+\contentsline {section}{\numberline {5}Comparison}{13}{}%
+\contentsline {section}{\numberline {6}Video}{14}{}%
+\contentsline {section}{\numberline {7}Appendix}{14}{}%
+\contentsline {subsection}{\numberline {7.1}Python code}{14}{}%
