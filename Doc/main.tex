@@ -400,7 +400,30 @@ As we mentioned before, removing d from our sinusoidal regression removes a cert
 
 So now we figured out that a $d>0$ will result in the velocity function $v(t) = -\frac{a}{b}\cos(bt+c) - dt + C_{1}$ to never reach zero as time $t$ increases, and setting $d=0$ will make it so we can still end up at zero. It doesn't exactly still imply that our displacement will go back to zero.
 
-. Regardless, we know if we continue integrating with an additional constant, its bound to add drift, because $\int c_{1} dx = c_{1}x+c$ and as x increases, the y value also goes up. But this time we have no choice but to keep it because, 
+. Regardless, we know if we continue integrating with an additional constant, its bound to add drift, because $\int c_{1} dx = c_{1}x+c$ and as x increases, the y value also goes up. But this time we have no choice but to keep it because.
+
+$C_{1}$ adds drift to our equation. but could it also help us model the case where my end displacement isn't exactly the same spot? If we have the end position be different, then this will be determined by the mean. if it is zero then it is the exact place. But if it isn't, then THIS is what determines the change in displacement between the beginning and the end, not c. 
+
+\section{A conversation with $C_{1}$}
+
+
+Okay. the problem is that if we have a $C_{1}$ that is not 0, then this would mean that our displacement graph will drift because it means that the area of the graph is either more positive or more negative, which adds up over time. How do we make sense of $C_{1}$ then? And if I remember that the phone ended in the same place it started, then why would $C_{1}$ be nonzero? There's the obvious answer of uncertainty at play, but what does $C_{1}\neq 0$ imply about our mathematical model?
+
+Earlier, we solved
+\begin{align}
+    v(0) &= -\frac{a}{b}\cos(\left(0\right)b+c) + C_{1} = 0 \\
+    \frac{a}{b}\cos(c) &= C_{1} = 0.0209628448456 \\
+\end{align}
+
+By adding $C_{1}$ here it assumes that the antiderivative $F(x) = -\frac{a}{b}\cos(\left(0\right)b+c)$ (without the $C_{1}$) is unable to be zero, meaning that we assume integrating the acceleration model wouldn't result in the initial velocity being zero $\int a(t)\Big_{t=0} = v(0)=0$ and that we need an additional term $C_{1}$ to vertical shift $v(t) = F(t)$ by $C_{1}$ such that the initial velocity of the velocity function is zero.
+So the mathematical reason why $C_{0} \neq 0$ is because $F(0)\neq 0$ meaning $F(x) = -\frac{a}{b}\cos(\left(0\right)b+c) \neq 0$. If we do want to make $C_{1} = 0$, this means we need $-\frac{a}{b}\cos(\left(0\right)b+c) = 0$. And since we know that $a$ and $b$ are responsible for the horizontal/vertical dilation, we know it cannot be zero, so we ignore that for now. Leaving us with
+\begin{equation}
+    \cos(\left(0\right)b+c) = 0
+    \cos(c) = 0
+    c = \frac{\pi}{2}
+\end{equation}
+which means in order for $C_{1} = 0$ we need $c=\frac{\pi}{2}$. Which makes sense because for our velocity function 
+
 
 
 and graphing it with the correct values we get the following graph
