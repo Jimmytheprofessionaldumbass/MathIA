@@ -247,6 +247,21 @@ INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/caption/caption.sty
 INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/caption/caption.sty
 INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/caption/caption3.sty
 INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/caption/caption3.sty
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.fillbetween.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.fillbetween.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfcontrib/tikzlibraryfillbetween.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfcontrib/tikzlibraryfillbetween.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryintersections.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryintersections.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryintersections.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryintersections.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfcontrib/tikzlibrarydecorations.softclip.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfcontrib/tikzlibrarydecorations.softclip.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfcontrib/pgflibraryfillbetween.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfcontrib/pgflibraryfillbetween.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfcontrib/pgflibraryfillbetween.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.decorations.softclip.code.tex
+INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.decorations.softclip.code.tex
 INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypatterns.code.tex
 INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypatterns.code.tex
 INPUT /usr/local/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibrarypatterns.code.tex
@@ -280,10 +295,6 @@ OUTPUT build/main.pdf
 INPUT /usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT build/main.toc
-INPUT build/main.toc
-INPUT build/main.toc
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
@@ -295,7 +306,6 @@ INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
-OUTPUT build/main.toc
 INPUT data/best.csv
 INPUT data/best_vel.csv
 INPUT data/best_displ.csv
@@ -303,12 +313,19 @@ INPUT data/best.csv
 INPUT data/aligned_best.csv
 INPUT data/aligned_best_vel.csv
 INPUT data/aligned_best_displ.csv
+INPUT data/aligned_best_displ.csv
+INPUT data/actual displacement.csv
 INPUT ./images/desmos.png
 INPUT ./images/desmos.png
 INPUT ./images/desmos.png
 INPUT ./images/desmos.png
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT data/actual displacement.csv
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT data/best.csv
+INPUT data/actual displacement.csv
 INPUT data/aligned_best_displ.csv
 OUTPUT build/_FAD58DE7366495DB4650CFEFAC2FCD61.data.minted
 INPUT build/_FAD58DE7366495DB4650CFEFAC2FCD61.config.minted
@@ -319,9 +336,9 @@ INPUT ./build/_minted/_FAD58DE7366495DB4650CFEFAC2FCD61.index.minted
 INPUT ./build/_minted/default.style.minted
 INPUT ./build/_minted/default.style.minted
 INPUT build/_minted/default.style.minted
-INPUT ./build/_minted/7F004742EA34B538769FB19688E17689.highlight.minted
-INPUT ./build/_minted/7F004742EA34B538769FB19688E17689.highlight.minted
-INPUT build/_minted/7F004742EA34B538769FB19688E17689.highlight.minted
+INPUT ./build/_minted/24FCA992C974984D9321E0E0C4E650E0.highlight.minted
+INPUT ./build/_minted/24FCA992C974984D9321E0E0C4E650E0.highlight.minted
+INPUT build/_minted/24FCA992C974984D9321E0E0C4E650E0.highlight.minted
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmitt10.tfm
 INPUT build/main.aux

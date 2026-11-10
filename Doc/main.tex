@@ -1,7 +1,6 @@
 % !TeX root = main.tex
 \documentclass[12pt]{article}
 \title{Investigating accelerometer accuracy by integrating twice}
-% \author{Jimmy Zeng}
 
 \usepackage{listings}
 \usepackage{xcolor}
@@ -12,6 +11,7 @@
 \usepackage{graphicx}
 \graphicspath{{images/}}
 \usepackage{subcaption}
+\usepgfplotslibrary{fillbetween}
 \usetikzlibrary{patterns}
 \usetikzlibrary{arrows.meta}
 \pgfplotsset{compat=1.18, width=10cm}
@@ -29,46 +29,45 @@
 \begin{document}
 \maketitle
 \pagebreak
-\tableofcontents
     \section{Introduction}
-        In Vex robotics, there are sensors for quickly measuring locations for accurate repeated robotic automationos. And the most useful one is an IMU. An inertial measurement unit (IMU) is a sensor that measures acceleration at a high rate. Whenever you need to know the precise location of something quickly, double integrating accelerometer data outpaces GPS solutions. They rely on the property that the area under a accelerometer graph can provide enough data used to compute the displacement of the object. In this investigation we will explore numerical and analytical integration of the accuracy of accelerometer data recorded on a phone accelerometer and comparing with video recorded displacement.
+        In Vex robotics, there are sensors for quickly measuring locations for accurate repeated robotic automationos. And the most useful one is an IMU. An inertial measurement unit (IMU) is a sensor that measures acceleration at a high rate. Whenever you need to know the precise location of something quickly, integrating accelerometer data twice to find displacement outpaces GPS solutions. They rely on the property that the area under a accelerometer graph can provide enough data used to compute the displacement of the object. In this investigation we will explore numerical and analytical integration of the accuracy of accelerometer data recorded on a phone accelerometer and comparing with video recorded displacement.
 
-        \pagebreak
 \section{How to find displacement from acceleration graph}
-    Recall that in kinematics acceleration is defined as the derivative of velocity
-\begin{equation}
-    a = \frac{\diff v}{\diff t}
-\end{equation}
+    % Recall that in kinematics acceleration is defined as the derivative of velocity
+% \begin{equation}
+%     a = \frac{\diff v}{\diff t}
+% \end{equation}
+%
+% To find the derivative from first principals, we use limits:
+%
+% \begin{equation}
+%     \lim_{h \to 0}  \frac{v(t+h) - v(t)}{h}
+% \end{equation}
+% and $v(t+h) - v(t)$ essentially means the change in velocity over a short period of time $h$. And as $h$ approaches 0, it becomes an increasingly more accurate representation of the derivative of acceleration, velocity. And this means that for our data to be accurate, the sample rate has to be high.
 
-To find the derivative from first principals, we use limits:
-
-\begin{equation}
-    \lim_{h \to 0}  \frac{v(t+h) - v(t)}{h}
-\end{equation}
-and $v(t+h) - v(t)$ essentially means the change in velocity over a short period of time $h$. And as $h$ approaches 0, it becomes an increasingly more accurate representation of the derivative of acceleration, velocity. And this means that for our data to be accurate, the sample rate has to be high.
-
-Recall the fact that velocity is the integral of acceleration and displacement is the integral of velocity. Integral is the area under a curve. For continuous functions, they are an approximateted by dividing the function into many "rectangles" like shown below where the height of a specific rectangle at a specific point of the function is the y value of the function like shown below. 
+Recall the fact that velocity is the integral of acceleration and displacement is the integral of velocity. Integral is the area under a curve. For continuous functions, they are an approximateted by dividing the function into many "rectangles" like shown below where the height of a specific rectangle at a specific point of the function is the y value of the function
+% like shown below. 
 
 
-\begin{figure}[htbp]
-    \center
-    
-    \caption{Function area approximated with rectangles}
-    \label{fig:Label Name}
-\end{figure}
+% \begin{figure}[H]
+%     \center
+%
+%     \caption{Function area approximated with rectangles}
+%     \label{fig:Label Name}
+% \end{figure}
 
 As the width of the rectangles becomes smaller and smaller, the accuracy increases. So in terms of collecting our data, having data with higher sample rate then it would become more accurate. % really is it "accurate" though?
 
 But instead of using rectangles to find the area under the curve, we can just use basic geometric equations like the equation for finding the area of a triangle and rectangle. % better to remove this?
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \center
     \begin{equation}
         A_{triangle} = \frac{1}{2}b_{t}\cdot h_{t}
     \end{equation}
     \caption{The formula finding the area of a triangle}
 \end{figure}
-\begin{figure}[htbp]
+\begin{figure}[H]
     \center
     \begin{equation}
         A_{rectangle} = b_{r}\cdot h_{r}
@@ -80,7 +79,7 @@ the subscripts r and t indicate which base we are refering to (for instance it i
 
 Lets say we have two data points, the second data point's y-value could either be higher, lower, or equal to the y-value of the first point (shown below). And the numerical integral is essentially the area under between these two points, which can be calculated with the previous geometric equations illustrated below labeled with the equations
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \center
     \begin{tikzpicture}[scale=2]
         \draw [pattern=north west lines, pattern color=iceblue] (-2,1) -- (-2,0) -- node[below, fill=white,inner sep = 0.5pt] {$b_{r}$} 
@@ -108,7 +107,7 @@ Lets say we have two data points, the second data point's y-value could either b
     \caption{The three conditions of integration}
 \end{figure}
 
-But of course our data isn't just two points, but for the first two points, we find the area, and then the integral function's will use that area as the y-value for the new point. And the point's x-value should be in between the two points that we calculated the area with. And if we have another point, the integral function's corresponding new point's y-value will be the previous point's y-value plus the area between the new point and the previous point, and once again the x-value will be in between the two points in which the area is calculated from. 
+But of course our data isn't just two points, but for the first two points, we find the area, and then the integral function's will use that area as the y-value for the new point. And the point's x-value should be in the end of the two points that we calculated the area with because its refering to the area based on what has happened before. And if we have another point, the integral function's corresponding new point's y-value will be the previous point's y-value plus the area between the new point and the previous point, and once again the x-value will be in between the two points in which the area is calculated from. 
 So this is the data we collected from swinging the phone right to left 5 times. Positive means to the e Shown in Figure \ref{fig:raw-x-acceleration}
 
 
@@ -309,6 +308,126 @@ Ok, much better. We should probably center it again before integrating it once m
     \label{fig:displ (aligned)}
 \end{figure}
 
+Okay, this graph doesn't really seem like its' mean is zero even when the velocity-time graph has centered the mean to be zero. But there is no mistake, we look at the first up and down of the integrated velocity function (from $0<x<0.6$), it is indeed positive, which makes us reach a maxima of $\left(0.6, 1\right)$ in the displacement-time graph. In the integrated velocity function, the next part's area is negative (from $0.6<x<1.1$), and it subtracts the integrated displacement graph back to being close to zero, but doesn't ever go below it reaching a minimum close to but not reaching zero, and since it repeats going up and down and up, again, and we know that the minima is not lower than zero, it effectively makes the mean, not zero.
+But what if I wanted the displacement's mean to actually be zero? Well, what makes the mean non zero in the first place? If we look the velocity-time graph as a sine function, then we will notice it is made up of four parts:
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+        \begin{axis}[
+            trig format plots=rad,
+            axis lines=middle,
+            xmin=0, xmax=2*pi,
+            ymin=-1.2, ymax=1.2,
+            xtick={0,pi/2,pi,3*pi/2,2*pi},
+            xticklabels={0,$\frac{\pi}{2}$,$\pi$,$\frac{3\pi}{2}$,$2\pi$},
+        ]
+            \addplot[mark=none,thick,black,name path=A,
+                     domain=0:2*pi,samples=400] {sin(x)};
+            \path[name path=B] (axis cs:0,0) -- (axis cs:2*pi,0);
+
+            \addplot[icegreen,   fill opacity=0.3, draw=none]
+                fill between[of=A and B, soft clip={domain=0:pi/2}];
+            \addplot[iceteal,  fill opacity=0.3, draw=none]
+                fill between[of=A and B, soft clip={domain=pi/2:pi}];
+            \addplot[icecyan,fill opacity=0.3, draw=none]
+                fill between[of=A and B, soft clip={domain=pi:3*pi/2}];
+            \addplot[iceblue,fill opacity=0.3, draw=none]
+                fill between[of=A and B, soft clip={domain=3*pi/2:2*pi}];
+        \end{axis}
+    \end{tikzpicture}
+    
+    \begin{tikzpicture}
+        \begin{axis}[trig format plots = rad,xmin=0,xmax=6.28]
+            \addplot[icegreen,domain=0:pi/2] {sin(x-pi/2)+1};
+            \addplot[iceteal,domain=pi/2:pi] {sin(x-pi/2)+1};
+            \addplot[icecyan,domain=pi:3*pi/2] {sin(x-pi/2)+1};
+            \addplot[iceblue,domain=3*pi/2:2*pi] {sin(x-pi/2)+1};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Four parts of the sine function}
+    \label{fig:four parts of sin}
+\end{figure}
+
+Since we start the function at initial displacement = 0, the amount of area added by the first two parts (green and teal parts) determines the maximum of the graph; because we get subtracted by the same amount by the last two parts (cyan and blue), we go back to where we started (initial displacement = 0), which is why the initial displacement if now our minimum. But if we shift the phase of the sine function by $pi/2$ then we get a graph like this:
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+        \begin{axis}[
+            trig format plots=rad,
+            axis lines=middle,
+            xmin=0, xmax=2*pi,
+            ymin=-1.2, ymax=1.2,
+            xtick={0,pi/2,pi,3*pi/2,2*pi},
+            xticklabels={0,$\frac{\pi}{2}$,$\pi$,$\frac{3\pi}{2}$,$2\pi$},
+        ]
+            \addplot[mark=none,thick,black,name path=A,
+                     domain=0:2*pi,samples=400] {cos(x)};
+            \path[name path=B] (axis cs:0,0) -- (axis cs:2*pi,0);
+
+            % four shaded quarters
+            \addplot[icegreen,   fill opacity=0.3, draw=none]
+                fill between[of=A and B, soft clip={domain=0:pi/2}];
+            \addplot[iceteal,  fill opacity=0.3, draw=none]
+                fill between[of=A and B, soft clip={domain=pi/2:pi}];
+            \addplot[icecyan,fill opacity=0.3, draw=none]
+                fill between[of=A and B, soft clip={domain=pi:3*pi/2}];
+            \addplot[iceblue,fill opacity=0.3, draw=none]
+                fill between[of=A and B, soft clip={domain=3*pi/2:2*pi}];
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[trig format plots = rad,xmin=0,xmax=6.28]
+            \addplot[very thick, icegreen,domain=0:pi/2] {sin(x)};
+            \addplot[very thick, iceteal,domain=pi/2:pi] {sin(x)};
+            \addplot[very thick, icecyan,domain=pi:3*pi/2] {sin(x)};
+            \addplot[very thick, iceblue,domain=3*pi/2:2*pi] {sin(x)};
+        \end{axis}
+    \end{tikzpicture}
+    
+    \caption{Four parts of the $\sin(x+\frac{pi}{2}$ function}
+    \label{fig:four parts of cos}
+\end{figure}
+
+Here the first two parts' area will be zero (since they cancel each other out), and so does the second one, so in this case, instead of our initial displacement setting the mean, the initial displacement now sets the mean.
+
+Lets compare this data with the actual displacement-time data I recorded on video.
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+        \begin{axis} [
+            % xmin = 0,
+            % xmax = 10,
+            % ymin = -10,
+            % ymax=10,
+            width = \textwidth,
+            height = 5cm,
+            axis lines = middle,
+            xticklabel style = {yshift = -15pt},
+            title = {Accel;Time graph (aligned)}
+        ]
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma,
+                y filter/.code={\pgfmathparse{\thisrow{x}*1000}\pgfmathresult}
+            ]{data/aligned_best_displ.csv};
+            \addplot[color=iceblue,very thick]
+            table[
+                x=Time,
+                y=Displ,
+                col sep=comma
+            ]{data/actual displacement.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Comparison of integrated displacement against actual displacement}
+    \label{fig:numerical comparison}
+\end{figure}
+
+The y-values seem very tiny for the integrated displacement as compared to the recorded values for some reason, this is likely an error on the integration algorithm I made.
 
 % \begin{minted}{python}
 % dt = final_time - initial_time
@@ -394,20 +513,20 @@ Because if we find the constant $C_{1}$ of our modeled function when initial vel
 It is not actually zero! That's because since our initial acceleration (defined by $a\sin(bt+c) + d$) depends on both c and d to determine initial acceleration, and even when $d=0$, $c \neq 0$ which means our initial acceleration isn't actually zero, but why would that mean our initial velocity $C_{1}$ isn't zero then?
 
 
-That's because $C_{1}$ is dependent on the other terms a, b, and c. But still, it doesn't mean that $C_{1}$ doesn't depend on initial velocity, it may not depend on d, but d isn't the only value that determines initial velocity. 
-
-As we mentioned before, removing d from our sinusoidal regression removes a certain amount of drift; particularly to the extent that our velocity value can still return to zero (come to rest) no matter how large the value t (however long time has passed). But still, even without d: in order for $a(t)=a\sin(bt+c)$'s integrated velocity function $-\frac{a}{b}\cos(bt+c) + C_{1}$ to end at zero, we must also define the range of the function such that we end at $v(t) = -\frac{a}{b}\cos(bt+c) + C_{1} = 0$. In this case, we shouldn't focus on $a$ because that is solely the amplitude while b and c determine the horizontal characteristics of the sine wave function such as horizontal compression and phase shift. and phase shift in particular is responsible for where on the wave we start, and even if the vertical shift is 0, we could still start at the crest of the sine function, which would mean our initial velocity isn't zero. 
-
-So now we figured out that a $d>0$ will result in the velocity function $v(t) = -\frac{a}{b}\cos(bt+c) - dt + C_{1}$ to never reach zero as time $t$ increases, and setting $d=0$ will make it so we can still end up at zero. It doesn't exactly still imply that our displacement will go back to zero.
-
-. Regardless, we know if we continue integrating with an additional constant, its bound to add drift, because $\int c_{1} dx = c_{1}x+c$ and as x increases, the y value also goes up. But this time we have no choice but to keep it because.
-
-$C_{1}$ adds drift to our equation. but could it also help us model the case where my end displacement isn't exactly the same spot? If we have the end position be different, then this will be determined by the mean. if it is zero then it is the exact place. But if it isn't, then THIS is what determines the change in displacement between the beginning and the end, not c. 
+% That's because $C_{1}$ is dependent on the other terms a, b, and c. But still, it doesn't mean that $C_{1}$ doesn't depend on initial velocity, it may not depend on d, but d isn't the only value that determines initial velocity. 
+%
+% As we mentioned before, removing d from our sinusoidal regression removes a certain amount of drift; particularly to the extent that our velocity value can still return to zero (come to rest) no matter how large the value t (however long time has passed). But still, even without d: in order for $a(t)=a\sin(bt+c)$'s integrated velocity function $-\frac{a}{b}\cos(bt+c) + C_{1}$ to end at zero, we must also define the range of the function such that we end at $v(t) = -\frac{a}{b}\cos(bt+c) + C_{1} = 0$. In this case, we shouldn't focus on $a$ because that is solely the amplitude while b and c determine the horizontal characteristics of the sine wave function such as horizontal compression and phase shift. and phase shift in particular is responsible for where on the wave we start, and even if the vertical shift is 0, we could still start at the crest of the sine function, which would mean our initial velocity isn't zero. 
+%
+% So now we figured out that a $d>0$ will result in the velocity function $v(t) = -\frac{a}{b}\cos(bt+c) - dt + C_{1}$ to never reach zero as time $t$ increases, and setting $d=0$ will make it so we can still end up at zero. It doesn't exactly still imply that our displacement will go back to zero.
+%
+% . Regardless, we know if we continue integrating with an additional constant, its bound to add drift, because $\int c_{1} dx = c_{1}x+c$ and as x increases, the y value also goes up. But this time we have no choice but to keep it because.
+%
+% $C_{1}$ adds drift to our equation. but could it also help us model the case where my end displacement isn't exactly the same spot? If we have the end position be different, then this will be determined by the mean. if it is zero then it is the exact place. But if it isn't, then THIS is what determines the change in displacement between the beginning and the end, not c. 
 
 \section{A conversation with $C_{1}$}
 
 
-Okay. the problem is that if we have a $C_{1}$ that is not 0, then this would mean that our displacement graph will drift because it means that the area of the graph is either more positive or more negative, which adds up over time. How do we make sense of $C_{1}$ then? And if I remember that the phone ended in the same place it started, then why would $C_{1}$ be nonzero? There's the obvious answer of uncertainty at play, but what does $C_{1}\neq 0$ imply about our mathematical model?
+Okay. The problem is that if we have a $C_{1}$ that is not 0, then this would mean that our displacement graph will drift because it means that the area of the graph is either more positive or more negative, which adds up over time. How do we make sense of $C_{1}$ then? And if I remember that the phone ended in the same place it started, then why would $C_{1}$ be nonzero? There's the obvious answer of uncertainty at play, but what does $C_{1}\neq 0$ imply about our mathematical model?
 
 Earlier, we solved
 \begin{align}
@@ -415,15 +534,40 @@ Earlier, we solved
     \frac{a}{b}\cos(c) &= C_{1} = 0.0209628448456 \\
 \end{align}
 
-By adding $C_{1}$ here it assumes that the antiderivative $F(x) = -\frac{a}{b}\cos(\left(0\right)b+c)$ (without the $C_{1}$) is unable to be zero, meaning that we assume integrating the acceleration model wouldn't result in the initial velocity being zero $\int a(t)\Big_{t=0} = v(0)=0$ and that we need an additional term $C_{1}$ to vertical shift $v(t) = F(t)$ by $C_{1}$ such that the initial velocity of the velocity function is zero.
+By adding $C_{1}$ here it assumes that the antiderivative $F(x) = -\frac{a}{b}\cos(\left(0\right)b+c)$ (without the $C_{1}$) is unable to be zero, meaning that we assume integrating the acceleration model wouldn't result in the initial velocity being zero $\int a(t)\Big(t=0\Big) = v(0)=0$ and that we need an additional term $C_{1}$ to vertical shift $v(t) = F(t)$ by $C_{1}$ such that the initial velocity of the velocity function is zero.
 So the mathematical reason why $C_{0} \neq 0$ is because $F(0)\neq 0$ meaning $F(x) = -\frac{a}{b}\cos(\left(0\right)b+c) \neq 0$. If we do want to make $C_{1} = 0$, this means we need $-\frac{a}{b}\cos(\left(0\right)b+c) = 0$. And since we know that $a$ and $b$ are responsible for the horizontal/vertical dilation, we know it cannot be zero, so we ignore that for now. Leaving us with
 \begin{equation}
     \cos(\left(0\right)b+c) = 0
     \cos(c) = 0
     c = \frac{\pi}{2}
 \end{equation}
-which means in order for $C_{1} = 0$ we need $c=\frac{\pi}{2}$. Which makes sense because for our velocity function 
+which means in order for $C_{1} = 0$ we need $c=\frac{\pi}{2}$. Which is still fine, because acceleration could start a a non zero value, it just means that it experienced a force. Which makes sense because for our velocity function
 
+But it does raise an implication. It implies that the phase shift $c$ is able to impact the drift $C_{1}$ of the integrated velocity function if the velocity function has a condition $v(0)=0$. It makes sense because the antiderivative of sin(x+c) is -cos(x+c), so at the end, we are just saying that by changing (the phase shift of the original function), we are going to start at different initial velocities.
+
+For instance, if you didn't accelerate in the beginning, represented by $\sin(x)$, but you still start at zero velocity, then the integration from 0 to $\pi$ will be purely positive and the minima will be 0 rather than -1. Illustrated as the green part below:
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+        \begin{axis}[trig format plots = rad,xmin=0,xmax=6.28]
+            \addplot[mark=none,color=icegreen,name path=A,domain=0:pi,samples=200] {sin(x)};
+            \addplot[mark=none,color=iceblue,domain=pi:2*pi,samples=200] {sin(x)};
+            \path[name path=B] (axis cs:0,0) -- (axis cs:2*pi,0);
+            \addplot[icegreen,fill opacity=0.3,draw=none]
+                fill between[of=A and B, soft clip={domain=0:pi}];
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[trig format plots = rad,xmin=0,xmax=6.28]
+            \addplot[mark=none,color=icegreen,name path=A,domain=0:pi,samples=200] {-cos(x)};
+            \addplot[mark=none,color=iceblue,name path=A,domain=pi:2*pi,samples=200] {-cos(x)};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{0<x<$pi$ range of sin(x) and its integral}
+    \label{fig:}
+\end{figure}
 
 
 and graphing it with the correct values we get the following graph
@@ -446,7 +590,9 @@ and graphing it with the correct values we get the following graph
     \label{fig:analytic vt}
 \end{figure}
 
-Where green is the original function and blue is the integrated function and the orange is the actual recorded displacement.
+Where green is the original function and blue is the integrated function and the green is the actual video recorded displacement. Since the data wasn't scaled accurately, it has led the recorded displacement to be inaccurate.
+
+But this issue is surprisingly similar to the issue we encountered in the numerical approach when we were confused on why the integrated displacement never went down to a negative value.
 
 
 For now, we will keep in mind that $C_{1} = 0.0209628448456$ but continue using $C_{1}$ throughout integration for convenience. To find the displacement function with respect to time we integrate again.
@@ -466,7 +612,7 @@ Using the same u-substitution:
     s(t) &= -\frac{a}{b^{2}} \sin(bt+c) - \int dt\diff t + \int C_{1}\diff t + C_{2} \\
     s(t) &= -\frac{a}{b^{2}} \sin(bt+c) - \frac{dt^{2}}{2} + C_{1}t + C_{2} \\
 \end{align}
-and since this data is filmed as relative displacement from original point (seen as 0) we need to find the value of $C_{2}$ such that $s(0)=0$. [Ai said wording was bad, I don't understand why]
+and since this data is filmed as relative displacement from original point (seen as 0) we need to find the value of $C_{2}$ such that $s(0)=0$.
 \begin{align}
     s(0) &= -\frac{a}{b^{2}} \sin(b\left(0\right)+c) - \frac{d\left(0\right)^{2}}{2} + C_{1}\left(0\right) + C_{2} = 0 \\
     0 &= -\frac{a}{b^{2}} \sin(b\left(0\right)+c) + C_{2} \\
@@ -477,11 +623,11 @@ Resulting in a final function $s(t)$:
 \begin{equation}
     s(t) = -\frac{a}{b^{2}} \sin(bt+c) - \frac{dt^{2}}{2} + C_{1}t + C_{2}
 \end{equation}
-drawing a graph of progressive integration is seen in figure \ref{fig:model representation}
+now if we graph it we get Figure \ref{fig:model representation}
 \begin{figure}[H]
     \center
     \begin{tikzpicture}
-        \begin{axis} [xmin=0, xmax=5, ymin=-0.2, ymax=0.2, samples=2000]
+        \begin{axis} [xmin=0, xmax=2.5, samples=2000, trig format plots=rad]
             \addplot[mark=none, color=icegreen] {-0.00322867571063*sin(6.6486*x+0.216978) + -0.00194943*x^2 + 0.0209628448456*x + 0.000695067592524};
         \end{axis}
     \end{tikzpicture}
@@ -489,27 +635,81 @@ drawing a graph of progressive integration is seen in figure \ref{fig:model repr
     \label{fig:model representation}
 \end{figure}
 
-\section{Comparison}
+\section{Conclusion}
 We used two methods that both tries to find the displacement-time graph using a given accelerometer-time data, numerically and analytically.
-For the numerical approach, we have a lot of points that make up a graph when you connect the points. And since there are points, we can use geometry (although it is a lot of geometry) to find the area under a curve. We centered the data by subtracting each point by the mean of every point's y-value before integrating it numerically to reduce drift during integrated graphs.
+For the numerical approach, we have a lot of points that make up a graph when you connect the points. And since there are points, we can use geometry (although it is a lot of geometry) to find the area under the curve made by said points. We centered the data by subtracting each point by the mean of every point's y-value before integrating it numerically to reduce drift during integrated graphs.
 For the Analytical approach, we fitted a sinusoidal regression on the same accelerometer-time data and then we used algebra and integral calculus to integrate twice to find the displacement-time graph.
-Here is the both of them in one graph. The orange is the numerical method while the blue one is the analytical method.
+
+\subsection{Comparison}
+
+
+Here is the graph before integration for both numerical (the raw data) and the analytical (modeled function from desmos) approach:
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+        \begin{axis}[trig format plots=rad,xmin=0,xmax=2.5,samples=100]
+            \addplot[color=icegreen,very thick]
+            table[
+                x=Time,
+                y=x,
+                col sep=comma
+            ]{data/best.csv};
+            \addplot[color=iceblue,very thick]{0.14272*sin(6.6486*x+0.216978)-0.00389886};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Pre-Integration Graph}
+    \label{fig:pre int graph}
+\end{figure}
+
+The green is the raw data while the blue is the analytical approach.
+They both start really similar, desmos gives a strong coeeficient of determination of 0.8824, which determines how well the model fits the data.
+
+% Here is them after being integrated into velocity (same color coding):
+% \begin{figure}[H]
+%     \center
+%     \begin{tikzpicture}
+%         \begin{axis}[trig format plots=rad,xmin=0,xmax=2.5,samples=100]
+%             \addplot[color=icegreen,very thick]
+%             table[
+%                 x=Time,
+%                 y=x,
+%                 col sep=comma
+%             ]{data/aligned_best_vel.csv};
+%             \addplot[color=iceblue,very thick]{(0.14272/6.6486)*cos(6.6486*x+0.216978) - 0.00389886*x + 0.0209628448456};
+%         \end{axis}
+%     \end{tikzpicture}
+%     \caption{Pre-Integration Graph}
+%     \label{fig:pre int grph}
+% \end{figure}
+%
+% There seems to be a large d
+
+Here is the both of them in one graph. The green is the numerical method while the blue one is the analytical method and the actual values from the video recording is in orange.
+We see that for some reason the numerically integrated graph is much more vertically compressed when compared to the analytic function. This is like mentioned before, an issue with the scaling of the actual video recorded data.
 
 \begin{figure}[H]
     \begin{tikzpicture}
         \begin{axis} [
-            % xmin = 0,
-            % xmax = 10,
+            xmin = 0,
+            xmax = 2.5,
             % ymin = -10,
             % ymax=10,
             width = \textwidth,
             height = 5cm,
             axis lines = middle,
             xticklabel style = {yshift = -15},
-            title = {Displacement-time graph (Numerical + Analytical)}
+            title = {Displacement-time graph (Numerical + Analytical)},
+            trig format plots=rad
         ]
 
             \addplot[color=orange,very thick]
+            table[
+                x=Time,
+                y=Displ,
+                col sep=comma
+            ]{data/actual displacement.csv};
+            \addplot[color=icegreen,very thick]
             table[
                 x=Time,
                 y=x,
@@ -520,36 +720,58 @@ Here is the both of them in one graph. The orange is the numerical method while 
     \end{tikzpicture}
     \caption{Comparison between integration methods}
 \end{figure}
-\section{Video}
+
+\subsection{Evaluation}
+While the numerical method follows every accelerometer data point, the analytical method first tries to model it, which makes it a continuous smooth curve and then integrates analytically.
+
+In both cases, a tiny imperfection can get amplified, resulting in drift, but in different ways. In the numerical way, the data is collected in real life and have sensor uncertainties, meaning sometimes it should in theory be one accelerometer value that would result in an integration such that the velocity can start at zero and end at zero. But instead, it is just a little higher or lower, making the mean acceleration higher or lower, and when the mean acceleration is higher or lower, there is a tiny constant change in velocity over time, which results in drift over time.  And if you integrate it again, that tiny change gets ever more prominent as time passes. We corrected this drift by making sure the mean is centered before we integrate each time so that the integrated data will not have drift. But there is also sensor uncertainty, which adds more opportunities for drift over time. 
+While numerical methods accumulate uncertainty over time as a result of sensor accuracy. Modeling data with a sinusoidal rergression still can drift, but due to a more mathematical reason. For the equation we decided to model, we already established the fact that the constant $d$ in $a\sin(bx+c)+d$ refers to the mean in terms of its modeled data, and when you integrate any constant, it increases its degree, and making it more impactful over time. However, a more interesting case is when we encounter the first constant $C_{1}$ after integration, which turns out to be determined by the phase of our sinusoidal model $c$. Which intuitively doesn't make sense; why would the phase of an oscillatory function determine the magnitude of drift of its integrated velocity function? Well, its because of our condition that our our initial velocity is 0, but the part in the modeled sine function in which we started recording the data when integrated doesn't have its initial velocity equal to 0, so we have to move it either up or down to compensate, which adds the drift once we integrate again to find displacement.
+
+\subsection{Limitations}
+One limitation we encountered is that the displacement-time graph we got from the numerical method was surprisingly small, it appears to be scaled down by a factor of 1000, although, when you zoom in, it does make sense. I think this is probably something wrong with the algorithmic issue with my code but it also could be an issue with an erroneous assumption made while making the numerical integration python script. Though, it is linked in the appendix.
+
+
+
+
     
+
+Here we see that each method 
     
-
-We have a displacement/time graph from video. However it is a different sampling rate (120hz) than the recorded datapoints (100hz). Hence we will attempt to align by drawing a line between the points in the recorded accelerometer data, and interpolate the value.
-
-\begin{figure}[htbp]
-    \center
-    \begin{tikzpicture}
-        \begin{axis} [xmin=2,xmax=3,ymin=0,ymax=3,grid=major,xtick={1,2,3},ytick={1,2,3}]
-            \fill[pattern=north west lines, pattern color=iceblue] (2,2) -- (3,3) -- (3,0) -- (2,0) -- cycle;
-            \draw [color=icecyan,very thick] (2,2) -- (3,3);
-            \draw [color=black,very thick,dashed] (2.5,2.5) -- (2.5,0);
-            \fill (2.5, 2.5) circle (2pt);
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Illustration of interpolating values from two datapoints $x=2,3$}
-    \label{fig:interpolating values}
-\end{figure}
-
-
-
 \section{Appendix}
 
 \subsection{Python code}
 \begin{minted}{python}
-dt = final_time - initial_time
-dx_accel = final_accel - initial_accel
-dx_vel = (dt * initial_accel) + ((1/2) * dt * dx_accel)
-# triangle area + square area = area under accel graph = change in velocity
+import csv
+import math
+
+with open("aligned_best_vel.csv") as dataobject:
+    data = tuple(tuple(float(item) for item in row) for row in list(csv.reader(dataobject))[1:])
+    '''((0.0, -0.120582856), (0.004999756, -0.120273575)'''
+    
+    mean = sum(datum[1] for datum in data)/len(data)
+    data = [(datum[0], datum[1]-mean) for datum in data]
+
+    vel = []
+    accum_vel = 0
+
+    for index,row in enumerate(data):
+        try:
+            dt = data[index+1][0] - row[0]
+            da = data[index+1][1] - row[1]
+            dv = dt*row[1] + (1/2) * da*dt
+
+            accum_vel += dv
+            vel.append((data[index+1][0], accum_vel))
+        except IndexError:
+            break
+
+with open('aligned_best_displ.csv', 'w') as velfile:
+    file = csv.writer(velfile)
+    file.writerow(('Time', 'x'))
+    file.writerows(
+        [format(datum, 'f') for datum in row]
+        for row in vel # output source
+        )
 \end{minted}
     
 
